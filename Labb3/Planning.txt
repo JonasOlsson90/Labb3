@@ -1,0 +1,103 @@
+﻿Labb 3 
+
+ 
+
+Jag behöver: 
+
+    Views: 
+
+        Main view 
+
+        Play View 
+
+        Edit View 
+
+        Create View 
+
+    View Models: 
+
+        Main View Model / View Model Manager (Detta är väl egentligen ingen vymodel?) 
+
+        Play View Model 
+
+        Edit View Model 
+
+        Create View Model 
+
+    Models: 
+
+        Question 
+
+        Quiz 
+
+        QuizManager 
+
+ 
+
+ 
+
+Main view ska inte visa någonting utom de tre tabbarna och den valda tabbens innehåll.  
+
+Play view ska:  
+
+    Visa en rullgardin med de tillgängliga quizen.  
+
+    Ha en knapp för att starta det valda quizet. 
+
+    Visa kategori för aktuell fråga. 
+
+    Visa aktuell fråga. 
+
+    Visa bild för aktuell fråga. 
+
+    Visa de tre svarsalternativen med en knapp för varje svar, alternativt check boxes vid frågorna följt av en svarsknapp. 
+
+    Visa vilken fråga av hur många frågor man är på (x/y). 
+
+    Visa hur många rätt av antalet ställda frågor (x/y). 
+
+    Visa andelen rätt i procent. 
+
+ 
+
+Edit view ska: 
+
+    Visa en rullgardin med de tillgängliga quizen. 
+
+    Visa en rullgardin med de tillgängliga frågorna i det tidigare valda quizet. 
+
+    Ha ett textfält för kategorin. 
+
+    Ha ett textfält för frågan. 
+
+    Ha tre textfält för de olika svarsalternativen. 
+
+    Ha tillhörande check-boxar för ovanstående textfält, där användaren kan markera vilket alternativ som är rätt svar. 
+
+    Visa bild för aktuell fråga. 
+
+    Ha en knapp för att byta/lägga till bild. 
+
+    Ha en knapp för att lägga till ändringar. 
+
+ 
+
+Create View ska: 
+
+    Ha ett textfält för titel. 
+
+    Ha en rullgardin för kategori. 
+
+    Ha tre textfält för det olika svarsalternativen. 
+
+    Ha tillhörande check-boxar för ovanstående textfält, där användaren kan markera vilket alternativ som är rätt svar. 
+
+    Visa eventuell tillagd bild. 
+
+    Ha en knapp för att lägga till bild. 
+
+    Ha en knapp för att lägga till frågan i quizet som skapas. 
+
+    Visa hur många frågor quizet för närvarande innehåller. 
+
+    Ha en knapp för att skapa quizet.
