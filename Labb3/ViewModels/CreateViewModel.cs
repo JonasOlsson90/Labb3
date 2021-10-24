@@ -11,7 +11,7 @@ namespace Labb3.ViewModels
     class CreateViewModel : ObservableObject
     {
         //ToDo: QuizManager
-        private QuizManager _quizManager;
+        public QuizManager _quizManager;
         private string _title;
         private string _category;
         private string _question;
@@ -22,6 +22,7 @@ namespace Labb3.ViewModels
         public CreateViewModel(QuizManager quizManager)
         {
             _quizManager = quizManager;
+            _quizManager.Test = "Ett annat test!";
         }
 
         public string ImagePath

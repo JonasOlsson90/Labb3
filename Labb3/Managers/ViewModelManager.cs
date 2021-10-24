@@ -17,7 +17,7 @@ namespace Labb3.Managers
 
         public ViewModelManager()
         {
-            QuizManager = new QuizManager();
+            QuizManager = new QuizManager("Testelitest");
             PlayViewModel = new PlayViewModel(QuizManager);
             EditViewModel = new EditViewModel(QuizManager);
             CreateViewModel = new CreateViewModel(QuizManager);
