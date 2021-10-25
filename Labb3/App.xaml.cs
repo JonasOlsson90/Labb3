@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Labb3.Managers;
+using Labb3.ViewModels;
 
 namespace Labb3
 {
@@ -20,7 +21,7 @@ namespace Labb3
 
             MainWindow mainWindow = new()
             {
-                DataContext = new ViewModelManager()
+                DataContext = new MainViewModel()
             };
             mainWindow.Show();
         }

@@ -5,9 +5,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Labb3.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Labb3.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance viewModels:PlayViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -53,6 +55,13 @@
                 FontWeight="Bold" />
         </StackPanel>
         <TextBlock
+            Grid.Row="2"
+            Grid.Column="1"
+            Height="30"
+            VerticalAlignment="Bottom"
+            Foreground="Beige"
+            Text="{Binding Category}" />
+        <TextBlock
             Grid.Row="3"
             Grid.Column="1"
             Grid.ColumnSpan="2"
@@ -74,10 +83,10 @@
                 <Button
                     Width="40"
                     Height="40"
+                    Command="{Binding Answer1Command}"
                     Content="1"
                     FontSize="30"
-                    FontWeight="Bold" 
-                    Command="{Binding Answer1Command}"/>
+                    FontWeight="Bold" />
                 <TextBlock
                     MinWidth="150"
                     Background="#afafaf"
@@ -87,10 +96,10 @@
                 <Button
                     Width="40"
                     Height="40"
+                    Command="{Binding AnswerXCommand}"
                     Content="X"
                     FontSize="30"
-                    FontWeight="Bold" 
-                    Command="{Binding AnswerXCommand}"/>
+                    FontWeight="Bold" />
                 <TextBlock
                     MinWidth="150"
                     Background="#afafaf"
@@ -100,16 +109,16 @@
                 <Button
                     Width="40"
                     Height="40"
+                    Command="{Binding Answer2Command}"
                     Content="2"
                     FontSize="30"
-                    FontWeight="Bold" 
-                    Command="{Binding Answer2Command}"/>
+                    FontWeight="Bold" />
                 <TextBlock
                     MinWidth="150"
                     Background="#afafaf"
                     Text="{Binding Answers[2]}" />
             </StackPanel>
         </StackPanel>
-        
+
     </Grid>
 </UserControl>

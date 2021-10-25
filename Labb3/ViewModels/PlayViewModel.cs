@@ -20,9 +20,11 @@ namespace Labb3.ViewModels
         private int _numberOfQuestions;
         private int _numOfQuestionsAsked;
         private int _numOfCorrectAnswers;
+        private string _category;
         public QuizManager QuizManager { get; }
 
         //ToDO: Fixa det där med antal korrekta svar och sånt.
+        //ToDo: Ändra till mer enhetlig syntax med lambdapilar på get.
 
         public PlayViewModel(QuizManager quizManager)
         {
@@ -31,6 +33,16 @@ namespace Labb3.ViewModels
             Answers = new string[3];
             ImagePath = @"C:\Users\olsso\OneDrive\Bilder\EvolutionOfBulbasaur1.png"; //ToDo: Ta bort!!!
             Answers[0] = "Bulbasaur"; //ToDO: Ta bort!!!
+            Category = "Pokémon"; //ToDO: Ta bort!!!
+        }
+
+        public string Category
+        {
+            get => _category;
+            set
+            {
+                SetProperty(ref _category, value);
+            }
         }
 
         public int NumOfCorrectAnswers

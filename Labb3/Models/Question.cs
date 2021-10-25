@@ -8,9 +8,19 @@ namespace Labb3.Models
 {
     class Question
     {
+        public string Category { get; }
         public string Statement { get; }
         public string[] Answers { get; }
         public int CorrectAnswer { get; } //ToDO: Fråga om den verkligen ska ha readonly key word.
         public string ImagePath { get; }
+
+        public Question(string category, string statement, int correctAnswer, string imagePath, params string[] answers)
+        {
+            Category = category;
+            Statement = statement;
+            CorrectAnswer = correctAnswer;
+            ImagePath = imagePath;
+            Answers = answers;
+        }
     }
 }

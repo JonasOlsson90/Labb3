@@ -10,18 +10,18 @@
     Width="1200"
     Height="650"
     Background="#dddddd"
-    mc:Ignorable="d" 
-    FontSize="20">
+    FontSize="20"
+    mc:Ignorable="d">
 
     <Grid>
         <TabControl Background="#2e2e2e">
-            <TabItem Header="Play" DataContext="{Binding PlayViewModel}">
+            <TabItem DataContext="{Binding PlayViewModel}" Header="Play">
                 <views:PlayView />
             </TabItem>
-            <TabItem Header="Edit">
+            <TabItem DataContext="{Binding EditViewModel}" Header="Edit">
                 <views:EditView />
             </TabItem>
-            <TabItem Header="Create">
+            <TabItem DataContext="{Binding CreateViewModel}" Header="Create">
                 <views:CreateView />
             </TabItem>
         </TabControl>
