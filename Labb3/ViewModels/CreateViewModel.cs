@@ -4,18 +4,20 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Labb3.Managers;
 using Labb3.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Win32;
 
 namespace Labb3.ViewModels
 {
     class CreateViewModel : ObservableObject
     {
         //ToDo: QuizManager
-        public QuizManager _quizManager;
+        private QuizManager _quizManager;
         private string _title;
         private string _category;
         private string _question;
@@ -24,13 +26,22 @@ namespace Labb3.ViewModels
         private string _answer2;
         private int _numOfQuestions;
         private string _imagePath;
-        public int CorrectAnswer { get; set; }
+        private int _correctAnswer;
         public ObservableCollection<string> Categories => new (_quizManager.Categories);
 
         public CreateViewModel(QuizManager quizManager)
         {
             _quizManager = quizManager;
-            CorrectAnswer = 0;
+            Category = _quizManager.Categories[0];
+        }
+
+        public int CorrectAnswer
+        {
+            get => _correctAnswer;
+            set
+            {
+                SetProperty(ref _correctAnswer, value);
+            }
         }
 
         public string ImagePath
@@ -95,27 +106,57 @@ namespace Labb3.ViewModels
             }
         }
 
-        public ICommand ChooseImageCommand => new RelayCommand( _quizManager.ChoosePicture);
+        public ICommand ChooseImageCommand => new RelayCommand(ChoosePicture);
         public ICommand CreateQuizCommand => new RelayCommand(CreateNewQuiz);
         public ICommand AddQuestionCommand => new RelayCommand(AddQuestion);
 
+        private void ChoosePicture()
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = "Images (*.jpg, *.jpeg, *.png)|*.jpg; *.jpeg; *.png|All files (*.*)|*.*"
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                ImagePath = openFileDialog.FileName;
+            }
+        }
+
         private void AddQuestion()
         {
+            if (string.IsNullOrEmpty(Question))
+            {
+                MessageBox.Show("You have to enter a question!", "NO QUESTION ASKED");
+                return;
+            }
             _quizManager.AddQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX,
                 Answer2);
-            Category = string.Empty;
             Question = string.Empty;
             CorrectAnswer = 0;
             ImagePath = string.Empty;
             Answer1 = string.Empty;
             AnswerX = string.Empty;
             Answer2 = string.Empty;
+            Category = _quizManager.Categories[0];
         }
 
         private void CreateNewQuiz()
         {
+            if (_quizManager.TempQuestions.Count == 0)
+            {
+                MessageBox.Show("You have to add questions to your quiz", "NO QUESTIONS");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Title))
+            {
+                MessageBox.Show("The quiz has to have a title", "NO TITLE");
+                return;
+            }
+
             _quizManager.CreateNewQuiz(Title);
             _quizManager.TempQuestions = new List<Question>();
+            Title = string.Empty;
         }
     }
 }

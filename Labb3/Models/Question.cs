@@ -13,6 +13,7 @@ namespace Labb3.Models
         public string[] Answers { get; }
         public int CorrectAnswer { get; } //ToDO: Fråga om den verkligen ska ha readonly key word.
         public string ImagePath { get; }
+        public bool IsAsked { get; set; }
 
         public Question(string category, string statement, int correctAnswer, string imagePath, params string[] answers)
         {

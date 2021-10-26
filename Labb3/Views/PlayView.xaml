@@ -18,7 +18,7 @@
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -41,9 +41,12 @@
         <StackPanel
             Grid.Row="1"
             Grid.Column="1"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             Orientation="Horizontal">
+            <Button Height="30" Content="Update" ToolTip="Press to update list of quizzes" Command="{Binding UpdateListCommand}"/>
             <ComboBox
+                ItemsSource="{Binding AvailableQuizzes}"
+                SelectedIndex="{Binding CurrentQuizIndex}"
                 Width="200"
                 Height="30"
                 ToolTip="Choose a quiz to play!" />
@@ -68,11 +71,19 @@
             Background="#afafaf"
             FontSize="20"
             Text="{Binding Statement}" />
+        <Border
+            Grid.Row="2"
+            Grid.RowSpan="4"
+            Grid.Column="3"
+            Grid.ColumnSpan="3"
+            Margin="5"
+            Background="#3a3a3a"/>
         <Image
             Grid.Row="2"
             Grid.RowSpan="4"
             Grid.Column="3"
             Grid.ColumnSpan="3"
+            Margin="5"
             Source="{Binding ImagePath}" />
         <StackPanel
             Grid.Row="5"
@@ -119,6 +130,6 @@
                     Text="{Binding Answers[2]}" />
             </StackPanel>
         </StackPanel>
-
+        <TextBlock Grid.Row="2" Grid.Column="6" Text="{Binding ResultDisplayText}" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>

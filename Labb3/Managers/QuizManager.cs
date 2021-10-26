@@ -24,10 +24,10 @@ namespace Labb3.Managers
             Quizzes = new List<Quiz>();
         }
 
-        public void Play()
+        public Quiz Play(string title)
         {
             //ToDo: Implementera
-            throw new NotImplementedException();
+            return Quizzes.Find(q => q.Title == title);
         }
 
         public void Answer1()
