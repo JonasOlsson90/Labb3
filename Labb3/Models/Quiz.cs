@@ -26,11 +26,9 @@ namespace Labb3.Models
             Questions = questions.ToList();
         }
 
-        public Question GetRandomQuestion()
+        public Question GetRandomQuestion(ICollection<string> categories)
         {
-            //ToDo: Se till att den inte kör samma frågor om och om igen
-
-            var notYetAskedQuestions = Questions.ToList().FindAll(q => !q.IsAsked);
+            var notYetAskedQuestions = Questions.ToList().FindAll(q => !q.IsAsked && categories.Contains(q.Category));
 
             if (notYetAskedQuestions.Count == 0)
                 return null;

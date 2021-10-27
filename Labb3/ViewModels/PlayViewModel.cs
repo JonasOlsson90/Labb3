@@ -25,7 +25,10 @@ namespace Labb3.ViewModels
         private int _numOfCorrectAnswers;
         private string _category;
         private string _resultDisplayText;
-        public QuizManager QuizManager { get; }
+        public int CurrentCategoryIndex { get; set; } //ToDo: Ta bort!
+        public List<string> SelectedCategories { get; set; }
+        public ObservableCollection<Category> Categories { get; set; } = new();
+        public readonly QuizManager _quizManager;
         private Quiz CurrentQuiz { get; set; }
         private Question CurrentQuestion { get; set; }
 
@@ -34,13 +37,11 @@ namespace Labb3.ViewModels
 
         public PlayViewModel(QuizManager quizManager)
         {
-            QuizManager = quizManager;
+            _quizManager = quizManager;
             Statement = "Choose a quiz and press play!";
-            Answers = new ObservableCollection<string>();
-            AvailableQuizzes = QuizManager.Quizzes.Select(q => q.Title).ToList();
-            //ImagePath = @"C:\Users\olsso\OneDrive\Bilder\EvolutionOfBulbasaur1.png"; //ToDo: Ta bort!!!
-            //Answers[0] = "Bulbasaur"; //ToDO: Ta bort!!!
-            //Category = "Pokémon"; //ToDO: Ta bort!!!
+            Answers = new ObservableCollection<string>() {"", "", ""};
+            AvailableQuizzes = _quizManager.Quizzes.Select(q => q.Title).ToList();
+            SelectedCategories = new List<string>();
         }
 
         public string ResultDisplayText
@@ -67,7 +68,7 @@ namespace Labb3.ViewModels
             set
             {
                 SetProperty(ref _numOfCorrectAnswers, value);
-                //UpdateResult();
+                // Borde kunna ta bort SetProperty
             }
         }
 
@@ -77,7 +78,7 @@ namespace Labb3.ViewModels
             set
             {
                 SetProperty(ref _numOfQuestionsAsked, value);
-                //UpdateResult();
+                // Borde kunna ta bort SetProperty
             }
         }
 
@@ -86,8 +87,9 @@ namespace Labb3.ViewModels
             get { return _numberOfQuestions; }
             set
             {
-                SetProperty(ref _numberOfQuestions, value);
-                //UpdateResult();
+                _numberOfQuestions = value;
+                //SetProperty(ref _numberOfQuestions, value);
+                // Borde kunna ta bort hela propertyn och ändra fältet direkt
             }
         }
 
@@ -118,7 +120,11 @@ namespace Labb3.ViewModels
         public int CurrentQuizIndex
         {
             get { return _currentQuizIndex; }
-            set { _currentQuizIndex = value; }
+            set
+            {
+                _currentQuizIndex = value;
+                UpdateCategories();
+            }
         }
 
         public List<string> AvailableQuizzes
@@ -138,17 +144,37 @@ namespace Labb3.ViewModels
 
         private void UpdateList()
         {
-            AvailableQuizzes = QuizManager.Quizzes.Select(q => q.Title).ToList();
+            AvailableQuizzes = _quizManager.Quizzes.Select(q => q.Title).ToList();
+            if (_quizManager.Quizzes.Count < 1)
+                return;
+            CurrentQuiz = _quizManager.Play(_availableQuizzes[CurrentQuizIndex]);
+            UpdateCategories();
+        }
+
+        private void UpdateCategories()
+        {
+            Categories.Clear();
+
+            var tempCategoryNames = _quizManager.Quizzes[CurrentQuizIndex].Questions.Select(q => q.Category).Distinct()
+                .ToList();
+
+            foreach (var category in tempCategoryNames)
+                Categories.Add(new Category(category));
         }
 
         private void Play()
         {
+            SelectedCategories.Clear();
+
+            foreach (var category in Categories.Where(c => c.IsSelected))
+                SelectedCategories.Add(category.CategoryName);
+
             if (_availableQuizzes.Count == 0)
                 return;
-            CurrentQuiz = QuizManager.Play(_availableQuizzes[CurrentQuizIndex]);
-            NumberOfQuestions = CurrentQuiz.Questions.Count;
+            CurrentQuiz = _quizManager.Play(_availableQuizzes[CurrentQuizIndex]);
+            NumberOfQuestions = CurrentQuiz.Questions.Count(q => SelectedCategories.Contains(q.Category));
             NumOfCorrectAnswers = 0;
-            NumOfQuestionsAsked = - 1;
+            NumOfQuestionsAsked = -1;
             CurrentQuiz.ResetQuestions();
             QuestionChanged();
         }
@@ -166,7 +192,7 @@ namespace Labb3.ViewModels
         private void QuestionChanged()
         {
             Answers.Clear();
-            CurrentQuestion = CurrentQuiz.GetRandomQuestion();
+            CurrentQuestion = CurrentQuiz.GetRandomQuestion(SelectedCategories);
 
             if (CurrentQuestion == null)
             {
@@ -183,6 +209,7 @@ namespace Labb3.ViewModels
 
             Statement = CurrentQuestion.Statement;
             ImagePath = CurrentQuestion.ImagePath;
+            Category = CurrentQuestion.Category;
             CurrentQuestion.IsAsked = true;
             NumOfQuestionsAsked++;
             UpdateResult();
@@ -193,7 +220,7 @@ namespace Labb3.ViewModels
             int tempNumOfQuestionsAsked = NumOfQuestionsAsked == 0 ? 1 : NumOfQuestionsAsked;
             ResultDisplayText = $"Question          {NumOfQuestionsAsked}/{NumberOfQuestions} \n\n" +
                                 $"Correct answers:  {NumOfCorrectAnswers}/{NumberOfQuestions} \n\n" +
-                                $"Correct answers   {Math.Round((decimal)NumOfCorrectAnswers / (decimal)tempNumOfQuestionsAsked, 2) * 100}%";
+                                $"Correct answers   {Math.Round((decimal)NumOfCorrectAnswers * 100 / (decimal)tempNumOfQuestionsAsked, 2)}%";
         }
     }
 }

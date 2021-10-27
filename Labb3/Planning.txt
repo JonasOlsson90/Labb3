@@ -20,7 +20,7 @@ Jag behöver:
       > QuizManager
  
 
-Main view ska inte visa någonting utom de tre tabbarna och den valda tabbens innehåll.  
+Main view ska inte visa någonting utom de tre tabbarna och den valda tabbens innehåll.
 
 Play view ska:
   > Visa en rullgardin med de tillgängliga quizen.

@@ -16,21 +16,127 @@
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition />
             <RowDefinition />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <TextBlock
             Grid.Row="0"
-            Grid.Column="1"
+            Grid.Column="2"
             Grid.ColumnSpan="3"
             HorizontalAlignment="Center"
             FontSize="40"
             Text="Edit Quiz" />
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <Button
+                Height="30"
+                Command="{Binding UpdateListCommand}"
+                Content="Update"
+                ToolTip="Press to update list of quizzes" />
+            <ComboBox
+                Width="200"
+                Height="30"
+                ItemsSource="{Binding AvailableQuizzes}"
+                SelectedIndex="{Binding CurrentQuizIndex}"
+                ToolTip="Choose a quiz to edit" />
+        </StackPanel>
+        <ComboBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Width="200"
+            Height="30"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            ItemsSource="{Binding AvailableQuestions}"
+            SelectedIndex="{Binding CurrentQuestionIndex}"
+            ToolTip="Select question to edit" />
+        <StackPanel
+            Grid.Row="1"
+            Grid.RowSpan="3"
+            Grid.Column="4"
+            Grid.ColumnSpan="2"
+            VerticalAlignment="Top"
+            Orientation="Vertical">
+            <StackPanel
+                Height="30"
+                Margin="0,2"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <ComboBox
+                    Width="170"
+                    Height="30"
+                    ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding Category}" />
+                <TextBlock
+                    FontSize="20"
+                    Foreground="Beige"
+                    Text="Category" />
+            </StackPanel>
+            <StackPanel
+                Height="30"
+                Margin="0,2"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBox Width="150" Text="{Binding Question}" />
+                <TextBlock
+                    FontSize="20"
+                    Foreground="Beige"
+                    Text="Statement" />
+            </StackPanel>
+            <StackPanel
+                Height="30"
+                Margin="0,2"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBox Width="150" Text="{Binding Answer1}" />
+                <TextBlock
+                    FontSize="20"
+                    Foreground="Beige"
+                    Text="Answer 1" />
+            </StackPanel>
+            <StackPanel
+                Height="30"
+                Margin="0,2"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBox Width="150" Text="{Binding AnswerX}" />
+                <TextBlock
+                    FontSize="20"
+                    Foreground="Beige"
+                    Text="Answer X" />
+            </StackPanel>
+            <StackPanel
+                Height="30"
+                Margin="0,2"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBox Width="150" Text="{Binding Answer2}" />
+                <TextBlock
+                    FontSize="20"
+                    Foreground="Beige"
+                    Text="Answer 2" />
+            </StackPanel>
+        </StackPanel>
+        <Image
+            Grid.Row="4"
+            Grid.RowSpan="2"
+            Grid.Column="4"
+            Grid.ColumnSpan="2"
+            Source="{Binding ImagePath}" />
     </Grid>
 </UserControl>

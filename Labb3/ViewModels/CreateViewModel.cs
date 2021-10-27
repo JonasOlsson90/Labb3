@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Labb3.Managers;
 using Labb3.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -16,8 +17,8 @@ namespace Labb3.ViewModels
 {
     class CreateViewModel : ObservableObject
     {
-        //ToDo: QuizManager
-        private QuizManager _quizManager;
+        //ToDo: _quizManager
+        private readonly QuizManager _quizManager;
         private string _title;
         private string _category;
         private string _question;
@@ -27,7 +28,7 @@ namespace Labb3.ViewModels
         private int _numOfQuestions;
         private string _imagePath;
         private int _correctAnswer;
-        public ObservableCollection<string> Categories => new (_quizManager.Categories);
+        public ObservableCollection<string> Categories => new(_quizManager.Categories);
 
         public CreateViewModel(QuizManager quizManager)
         {
@@ -118,8 +119,27 @@ namespace Labb3.ViewModels
             };
             if (openFileDialog.ShowDialog() == true)
             {
-                ImagePath = openFileDialog.FileName;
+                var fileName = openFileDialog.FileName;
+                if (ValidateImageFile(fileName))
+                    ImagePath = fileName;
+                else
+                {
+                    MessageBox.Show("You have to chose an image file (*.jpg, *.jpeg, *.png)", "NOT A PICTURE");
+                }
             }
+        }
+
+        private bool ValidateImageFile(string fileName)
+        {
+            try
+            {
+                var bitmap = new BitmapImage(new Uri(fileName));
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         private void AddQuestion()
@@ -137,7 +157,6 @@ namespace Labb3.ViewModels
             Answer1 = string.Empty;
             AnswerX = string.Empty;
             Answer2 = string.Empty;
-            Category = _quizManager.Categories[0];
         }
 
         private void CreateNewQuiz()
@@ -157,6 +176,7 @@ namespace Labb3.ViewModels
             _quizManager.CreateNewQuiz(Title);
             _quizManager.TempQuestions = new List<Question>();
             Title = string.Empty;
+            Category = _quizManager.Categories[0];
         }
     }
 }
