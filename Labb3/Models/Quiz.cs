@@ -28,7 +28,9 @@ namespace Labb3.Models
 
         public Question GetRandomQuestion(ICollection<string> categories)
         {
-            var notYetAskedQuestions = Questions.ToList().FindAll(q => !q.IsAsked && categories.Contains(q.Category));
+            var notYetAskedQuestions = categories.Count > 0 ? 
+                Questions.ToList().FindAll(q => !q.IsAsked && categories.Contains(q.Category)) : 
+                Questions.ToList().FindAll(q => !q.IsAsked);
 
             if (notYetAskedQuestions.Count == 0)
                 return null;

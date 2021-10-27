@@ -11,7 +11,7 @@ namespace Labb3.Models
         public string Category { get; }
         public string Statement { get; }
         public string[] Answers { get; }
-        public int CorrectAnswer { get; } //ToDO: Fråga om den verkligen ska ha readonly key word.
+        public int CorrectAnswer { get; }
         public string ImagePath { get; }
         public bool IsAsked { get; set; }
 

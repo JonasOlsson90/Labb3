@@ -17,7 +17,6 @@ namespace Labb3.ViewModels
 {
     class CreateViewModel : ObservableObject
     {
-        //ToDo: _quizManager
         private readonly QuizManager _quizManager;
         private string _title;
         private string _category;
@@ -54,6 +53,7 @@ namespace Labb3.ViewModels
             }
         }
 
+        //ToDo: Fundera på om du ska ha med detta, om så: implementera
         public int NumOfQuestions
         {
             get { return _numOfQuestions; }

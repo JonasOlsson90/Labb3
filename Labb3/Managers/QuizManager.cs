@@ -11,8 +11,7 @@ namespace Labb3.Managers
 {
     class QuizManager
     {
-        //ToDO: Tänk, implementera.
-        //ToDo: Näst på tur, skapa en lista med quiz och se till att man kan skapa och addera nya quizz från vyn
+        //ToDo: Implementera edit quiz
 
         public List<string> Categories => new() { "Geography", "Entertainment", "History", "Arts & Literature", "Science & Nature", "Pokémon" };
         public List<Quiz> Quizzes { get; set; }
@@ -26,7 +25,6 @@ namespace Labb3.Managers
 
         public Quiz Play(string title)
         {
-            //ToDo: Implementera
             return Quizzes.Find(q => q.Title == title);
         }
 

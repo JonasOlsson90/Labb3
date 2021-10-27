@@ -14,7 +14,6 @@ namespace Labb3.ViewModels
 {
     class EditViewModel : ObservableObject
     {
-        //ToDO: _quizManager
         private readonly QuizManager _quizManager;
         private string _category;
         private string _question;
