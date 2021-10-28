@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using Labb3.Models;
@@ -13,14 +14,26 @@ namespace Labb3.Managers
     {
         //ToDo: Implementera edit quiz
 
+        private FileManager _fileManager;
         public List<string> Categories => new() { "Geography", "Entertainment", "History", "Arts & Literature", "Science & Nature", "Pokémon" };
         public List<Quiz> Quizzes { get; set; }
         public List<Question> TempQuestions { get; set; }
 
-        public QuizManager()
+        public QuizManager(FileManager fileManager)
         {
             TempQuestions = new List<Question>();
+            _fileManager = fileManager;
             Quizzes = new List<Quiz>();
+            LoadQuizzesAsync();
+        }
+
+        public async Task LoadQuizzesAsync()
+        {
+            Quizzes = await Task<List<Quiz>>.Run(() =>
+            {
+                Thread.Sleep(10000);
+                return _fileManager.LoadQuizzes();
+            });
         }
 
         public Quiz Play(string title)

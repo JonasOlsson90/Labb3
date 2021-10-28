@@ -6,10 +6,14 @@
     xmlns:local="clr-namespace:Labb3.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Labb3.ViewModels"
+    xmlns:converters="clr-namespace:Labb3.Converters"
     d:DataContext="{d:DesignInstance viewModels:EditViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:RadioButtonCheckedConverter x:Key="radioButtonCheckedConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -74,11 +78,11 @@
             Orientation="Vertical">
             <StackPanel
                 Height="30"
-                Margin="0,2"
+                Margin="20,2, 0, 2"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
                 <ComboBox
-                    Width="170"
+                    Width="150"
                     Height="30"
                     ItemsSource="{Binding Categories}"
                     SelectedItem="{Binding Category}" />
@@ -89,7 +93,7 @@
             </StackPanel>
             <StackPanel
                 Height="30"
-                Margin="0,2"
+                Margin="20,2, 0, 2"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
                 <TextBox Width="150" Text="{Binding Question}" />
@@ -103,6 +107,13 @@
                 Margin="0,2"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
+                <RadioButton
+                    Width="20"
+                    Height="20"
+                    Content="zero"
+                    GroupName="Correct answer"
+                    IsChecked="{Binding Path=CorrectAnswer, Converter={StaticResource radioButtonCheckedConverter}, ConverterParameter=0}"
+                    ToolTip="Check the correct answer" />
                 <TextBox Width="150" Text="{Binding Answer1}" />
                 <TextBlock
                     FontSize="20"
@@ -114,6 +125,13 @@
                 Margin="0,2"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
+                <RadioButton
+                    Width="20"
+                    Height="20"
+                    Content="one"
+                    GroupName="Correct answer"
+                    IsChecked="{Binding Path=CorrectAnswer, Converter={StaticResource radioButtonCheckedConverter}, ConverterParameter=1}"
+                    ToolTip="Check the correct answer" />
                 <TextBox Width="150" Text="{Binding AnswerX}" />
                 <TextBlock
                     FontSize="20"
@@ -125,6 +143,13 @@
                 Margin="0,2"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
+                <RadioButton
+                    Width="20"
+                    Height="20"
+                    Content="two"
+                    GroupName="Correct answer"
+                    IsChecked="{Binding Path=CorrectAnswer, Converter={StaticResource radioButtonCheckedConverter}, ConverterParameter=2}"
+                    ToolTip="Check the correct answer" />
                 <TextBox Width="150" Text="{Binding Answer2}" />
                 <TextBlock
                     FontSize="20"
@@ -132,11 +157,47 @@
                     Text="Answer 2" />
             </StackPanel>
         </StackPanel>
+        <Border
+            Grid.Row="4"
+            Grid.RowSpan="2"
+            Grid.Column="4"
+            Grid.ColumnSpan="2"
+            Background="#3a3a3a" />
         <Image
             Grid.Row="4"
             Grid.RowSpan="2"
             Grid.Column="4"
             Grid.ColumnSpan="2"
             Source="{Binding ImagePath}" />
+        <Button
+            Grid.Row="4"
+            Grid.Column="3"
+            Width="170"
+            Height="40"
+            Command="{Binding ChooseImageCommand}"
+            Content="Choose a picture" />
+        <StackPanel
+            Grid.Row="4"
+            Grid.RowSpan="2"
+            Grid.Column="1">
+            <Button
+                Width="170"
+                Height="40"
+                Command="{Binding ApplyChangesCommand}"
+                Content="Apply changes"
+                ToolTip="Applies changes to the currently selected question in the currently selected quiz" />
+            <Button
+                Width="170"
+                Height="40"
+                Command="{Binding AddNewQuestionCommand}"
+                Content="Add new question"
+                ToolTip="Creates and adds a new question to the currently selected quiz, no changes will apply to currently selected question" />
+            <Button
+                Width="170"
+                Height="40"
+                Command="{Binding DeleteQuestionCommand}"
+                Content="Delete question"
+                ToolTip="Deletes the currently selected question from the currently selected quiz" />
+        </StackPanel>
     </Grid>
 </UserControl>

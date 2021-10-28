@@ -38,10 +38,7 @@ namespace Labb3.ViewModels
         public int CorrectAnswer
         {
             get => _correctAnswer;
-            set
-            {
-                SetProperty(ref _correctAnswer, value);
-            }
+            set => SetProperty(ref _correctAnswer, value);
         }
 
         public string ImagePath

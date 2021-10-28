@@ -168,8 +168,9 @@ namespace Labb3.ViewModels
 
         private void UpdateResult()
         {
-            int tempNumOfQuestionsAsked = _numOfQuestionsAsked == 0 ? 1 : _numOfQuestionsAsked;
-            ResultDisplayText = $"Question          {_numOfQuestionsAsked}/{_numberOfQuestions} \n\n" +
+            var tempNumOfQuestionsAsked = _numOfQuestionsAsked == 0 ? 1 : _numOfQuestionsAsked;
+            var tempNumOfCurrentQuestion = _numOfQuestionsAsked < _numberOfQuestions ? _numOfQuestionsAsked + 1 : _numOfQuestionsAsked;
+            ResultDisplayText = $"Question          {tempNumOfCurrentQuestion}/{_numberOfQuestions} \n\n" +
                                 $"Correct answers:  {_numOfCorrectAnswers}/{_numberOfQuestions} \n\n" +
                                 $"Correct answers   {Math.Round((decimal)_numOfCorrectAnswers * 100 / (decimal)tempNumOfQuestionsAsked, 2)}%";
         }

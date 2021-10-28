@@ -4,17 +4,20 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Labb3.Managers;
 using Labb3.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Win32;
 
 namespace Labb3.ViewModels
 {
     class EditViewModel : ObservableObject
     {
-        private readonly QuizManager _quizManager;
+        private QuizManager _quizManager;
         private string _category;
         private string _question;
         private string _answer1;
@@ -23,6 +26,7 @@ namespace Labb3.ViewModels
         private string _imagePath;
         private int _currentQuizIndex;
         private int _currentQuestionIndex;
+        private int _correctAnswer;
         private List<string> _availableQuizzes;
         private List<string> _availableQuestions;
         private Question _currentQuestion;
@@ -68,6 +72,12 @@ namespace Labb3.ViewModels
                 _currentQuestionIndex = value;
                 UpdateCurrentQuestion();
             }
+        }
+
+        public int CorrectAnswer
+        {
+            get => _correctAnswer;
+            set => SetProperty(ref _correctAnswer, value);
         }
 
         public string ImagePath
@@ -125,20 +135,67 @@ namespace Labb3.ViewModels
         }
 
         public ICommand UpdateListCommand => new RelayCommand(UpdateList);
+        public ICommand ChooseImageCommand => new RelayCommand(ChoosePicture);
+        public ICommand ApplyChangesCommand => new RelayCommand(ApplyChanges);
+        public ICommand DeleteQuestionCommand => new RelayCommand(DeleteQuestion);
+        public ICommand AddNewQuestionCommand => new RelayCommand(AddNewQuestion);
 
         private void UpdateList()
         {
             AvailableQuizzes = _quizManager.Quizzes.Select(q => q.Title).ToList();
         }
 
+        private void ChoosePicture()
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = "Images (*.jpg, *.jpeg, *.png)|*.jpg; *.jpeg; *.png|All files (*.*)|*.*"
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var fileName = openFileDialog.FileName;
+                if (ValidateImageFile(fileName))
+                    ImagePath = fileName;
+                else
+                {
+                    MessageBox.Show("You have to chose an image file (*.jpg, *.jpeg, *.png)", "NOT A PICTURE");
+                }
+            }
+        }
+
+        private void ApplyChanges()
+        {
+            _currentQuestion.UpdateQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
+            
+            UpdateList();
+        }
+
+        private void DeleteQuestion()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AddNewQuestion()
+        {
+            throw new NotImplementedException();
+        }
+
         private void UpdateQuestions()
         {
+            if (_quizManager.Quizzes.Count == 0)
+            {
+                MessageBox.Show("No quizzes found. Please go to the create tab to create a new quiz.", "NO QUIZZES");
+                return;
+            }
+
             AvailableQuestions = _quizManager.Quizzes[CurrentQuizIndex].Questions.Select(q => q.Statement).ToList();
             UpdateCurrentQuestion();
         }
 
         private void UpdateCurrentQuestion()
         {
+            //ToDo: fixa så att det inte kraschar!
+            //ToDo: fixa så att radioknappisarna hänger med!
             _currentQuestion = _quizManager.Quizzes[CurrentQuizIndex].Questions.ToList()[CurrentQuestionIndex];
             UpdatePropsAndFields();
         }
@@ -151,6 +208,19 @@ namespace Labb3.ViewModels
             Answer2 = _currentQuestion.Answers[2];
             ImagePath = _currentQuestion.ImagePath;
             Category = _currentQuestion.Category;
+        }
+
+        private bool ValidateImageFile(string fileName)
+        {
+            try
+            {
+                var bitmap = new BitmapImage(new Uri(fileName));
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
 

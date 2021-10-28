@@ -12,13 +12,15 @@ namespace Labb3.ViewModels
     class MainViewModel
     {
         public QuizManager QuizManager { get; }
+        public FileManager FileManager { get; }
         public ObservableObject PlayViewModel { get; }
         public ObservableObject EditViewModel { get; }
         public ObservableObject CreateViewModel { get; }
 
         public MainViewModel()
         {
-            QuizManager = new QuizManager();
+            FileManager = new();
+            QuizManager = new QuizManager(FileManager);
             PlayViewModel = new PlayViewModel(QuizManager);
             EditViewModel = new EditViewModel(QuizManager);
             CreateViewModel = new CreateViewModel(QuizManager);
