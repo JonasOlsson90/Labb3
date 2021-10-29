@@ -47,7 +47,7 @@ namespace Labb3.Models
 
         public void RemoveQuestion(int index)
         {
-            if (Questions.Count > index)
+            if (Questions.Count <= index)
                 return;
 
             var temp = Questions.ToList()[index];

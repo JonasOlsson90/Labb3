@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Labb3.Models;
 using System.Text.Json;
 using System.Windows;
+using Labb3.DefaultData;
 
 namespace Labb3.Managers
 {
@@ -14,7 +15,7 @@ namespace Labb3.Managers
     {
         private readonly string _directoryPath;
         private readonly string _pathToFile;
-        private List<Quiz> _standardQuizzes;
+        //private List<Quiz> _standardQuizzes;
 
         public FileManager()
         {
@@ -23,53 +24,55 @@ namespace Labb3.Managers
         }
 
         //ToDo: Gör async
-        public List<Quiz> LoadQuizzes()
+        public async Task<List<Quiz>> LoadQuizzesAsync()
         {
             if (!File.Exists(_pathToFile))
-                CreateFile();
-
-            List<Quiz> quizList = new();
-            string jsonString = string.Empty;
+                await CreateFileAsync();
 
             try
             {
-                jsonString = File.ReadAllText(_pathToFile);
+                using FileStream fs = new FileStream(_pathToFile, FileMode.Open);
+                return await JsonSerializer.DeserializeAsync<List<Quiz>>(fs);
             }
             catch (Exception e)
             {
                 MessageBox.Show($"Exception thrown: {e}", "ERROR");
                 throw;
             }
-
-            quizList = JsonSerializer.Deserialize<List<Quiz>>(jsonString);
-
-            return quizList;
         }
 
-        public void SaveToFile(List<Quiz> quizzesToSave)
+        public async Task SaveToFile(List<Quiz> quizzesToSave)
         {
-            string jsonString = JsonSerializer.Serialize(quizzesToSave);
-            File.WriteAllText(_pathToFile, jsonString);
+            //ToDo: Kolla om createStream skapar nya filer hela tiden
+            using FileStream createStream = File.Open(_pathToFile, FileMode.OpenOrCreate);
+            await JsonSerializer.SerializeAsync(createStream, quizzesToSave);
+            await createStream.DisposeAsync();
         }
-
-        public void CreateFile()
+        
+        public async Task CreateFileAsync()
         {
-            CreateStandardQuiz();
+            //ToDo: Asynca det här!
             Directory.CreateDirectory(_directoryPath);
-            using FileStream file = File.Create(_pathToFile);
-            file.Close();
-            SaveToFile(_standardQuizzes);
+
+            await Task.Run(() =>
+            {
+                using FileStream fileCreateter = File.Open(_pathToFile, FileMode.OpenOrCreate);
+
+                fileCreateter.Close();
+
+                using var fileTask = File.WriteAllTextAsync(_pathToFile, DefaultQuiz.DefaultQuizJsonString);
+            });
         }
 
-        private void CreateStandardQuiz()
-        {
-            //ToDO: Gör ett standardquiz och lägg till i Quizzes.
+        //private void CreateStandardQuiz()
+        //{
+        //    //ToDO: Gör ett standardquiz och lägg till i Quizzes.
 
-            List<Question> tempQuestion = new();
-            _standardQuizzes = new();
+        //    List<Question> tempQuestion = new();
+        //    _standardQuizzes = new();
 
-            tempQuestion.Add(new Question("Pokémon", "Select the best pokémon", 1, "", "Charmander", "Oddish", "Squirtle"));
-            _standardQuizzes.Add(new Quiz("Pokémon", tempQuestion));
-        }
+        //    tempQuestion.Add(new Question("Pokémon", "Select the best pokémon", 1, "", "Charmander", "Oddish", "Squirtle"));
+        //    _standardQuizzes.Add(new Quiz("Pokémon", tempQuestion));
+        //}
     }
 }

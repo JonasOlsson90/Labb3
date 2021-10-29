@@ -160,6 +160,7 @@
             </StackPanel>
         </StackPanel>
         <TextBlock
+            Margin="20, 0"
             Grid.Row="4"
             Grid.RowSpan="2"
             Grid.Column="3"

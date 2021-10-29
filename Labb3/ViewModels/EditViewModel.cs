@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace Labb3.ViewModels
             set
             {
                 SetProperty(ref _availableQuizzes, value);
-                UpdateQuestions();
+                CurrentQuizIndex = 0;
             }
         }
 
@@ -61,7 +62,12 @@ namespace Labb3.ViewModels
         public int CurrentQuizIndex
         {
             get { return _currentQuizIndex; }
-            set { _currentQuizIndex = value; }
+            set
+            {
+                SetProperty(ref _currentQuizIndex, value);
+                CurrentQuestionIndex = 0;
+                UpdateQuestions();
+            }
         }
 
         public int CurrentQuestionIndex
@@ -69,7 +75,7 @@ namespace Labb3.ViewModels
             get { return _currentQuestionIndex; }
             set
             {
-                _currentQuestionIndex = value;
+                SetProperty(ref _currentQuestionIndex, value);
                 UpdateCurrentQuestion();
             }
         }
@@ -166,18 +172,22 @@ namespace Labb3.ViewModels
         private void ApplyChanges()
         {
             _currentQuestion.UpdateQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
-            
-            UpdateList();
+            UpdateQuestions();
         }
 
         private void DeleteQuestion()
         {
-            throw new NotImplementedException();
+            _quizManager.Quizzes[_currentQuizIndex].RemoveQuestion(CurrentQuestionIndex);
+            CurrentQuestionIndex = CurrentQuestionIndex <= 0 ? 0 : CurrentQuestionIndex - 1;
+            UpdateList();
+            UpdateCurrentQuestion();
         }
 
         private void AddNewQuestion()
         {
-            throw new NotImplementedException();
+            _quizManager.Quizzes[CurrentQuizIndex].AddQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
+            CurrentQuestionIndex++;
+            UpdateQuestions();
         }
 
         private void UpdateQuestions()
@@ -196,7 +206,18 @@ namespace Labb3.ViewModels
         {
             //ToDo: fixa så att det inte kraschar!
             //ToDo: fixa så att radioknappisarna hänger med!
+            if (CurrentQuestionIndex < 0)
+                CurrentQuestionIndex = 0;
+
+            if (_quizManager.Quizzes[CurrentQuizIndex].Questions.Count == 0)
+            {
+                ClearPropsAndFields();
+                return;
+            }
+              
+                
             _currentQuestion = _quizManager.Quizzes[CurrentQuizIndex].Questions.ToList()[CurrentQuestionIndex];
+            
             UpdatePropsAndFields();
         }
 
@@ -206,8 +227,20 @@ namespace Labb3.ViewModels
             Answer1 = _currentQuestion.Answers[0];
             AnswerX = _currentQuestion.Answers[1];
             Answer2 = _currentQuestion.Answers[2];
+            CorrectAnswer = _currentQuestion.CorrectAnswer;
             ImagePath = _currentQuestion.ImagePath;
             Category = _currentQuestion.Category;
+        }
+
+        private void ClearPropsAndFields()
+        {
+            Question = string.Empty;
+            Answer1 = string.Empty;
+            AnswerX = string.Empty;
+            Answer2 = string.Empty;
+            CorrectAnswer = 0;
+            ImagePath = string.Empty;
+            Category = "Geography";
         }
 
         private bool ValidateImageFile(string fileName)

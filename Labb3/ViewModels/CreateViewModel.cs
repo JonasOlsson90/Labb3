@@ -170,7 +170,16 @@ namespace Labb3.ViewModels
                 return;
             }
 
-            _quizManager.CreateNewQuiz(Title);
+            string tempTitle = Title;
+            int tempTitleAddition = 2;
+
+            while (_quizManager.Quizzes.Exists(q => q.Title == tempTitle))
+            {
+                tempTitle = $"{Title}({tempTitleAddition})";
+                tempTitleAddition++;
+            }
+
+            _quizManager.CreateNewQuiz(tempTitle);
             _quizManager.TempQuestions = new List<Question>();
             Title = string.Empty;
             Category = _quizManager.Categories[0];

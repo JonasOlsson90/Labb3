@@ -31,8 +31,8 @@ namespace Labb3.Managers
         {
             Quizzes = await Task<List<Quiz>>.Run(() =>
             {
-                Thread.Sleep(10000);
-                return _fileManager.LoadQuizzes();
+                //Thread.Sleep(10000);
+                return _fileManager.LoadQuizzesAsync();
             });
         }
 
