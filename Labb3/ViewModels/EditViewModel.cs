@@ -18,7 +18,7 @@ namespace Labb3.ViewModels
 {
     class EditViewModel : ObservableObject
     {
-        private QuizManager _quizManager;
+        private readonly QuizManager _quizManager;
         private string _category;
         private string _question;
         private string _answer1;
@@ -47,6 +47,7 @@ namespace Labb3.ViewModels
             {
                 SetProperty(ref _availableQuizzes, value);
                 CurrentQuizIndex = 0;
+                CurrentQuestionIndex = 0;
             }
         }
 
@@ -65,7 +66,6 @@ namespace Labb3.ViewModels
             set
             {
                 SetProperty(ref _currentQuizIndex, value);
-                CurrentQuestionIndex = 0;
                 UpdateQuestions();
             }
         }
@@ -89,10 +89,7 @@ namespace Labb3.ViewModels
         public string ImagePath
         {
             get { return _imagePath; }
-            set
-            {
-                SetProperty(ref _imagePath, value);
-            }
+            set => SetProperty(ref _imagePath, value);
         }
 
         public string Answer1
@@ -142,8 +139,10 @@ namespace Labb3.ViewModels
 
         public ICommand UpdateListCommand => new RelayCommand(UpdateList);
         public ICommand ChooseImageCommand => new RelayCommand(ChoosePicture);
+        public ICommand RemoveImageCommand => new RelayCommand(RemovePicture);
         public ICommand ApplyChangesCommand => new RelayCommand(ApplyChanges);
         public ICommand DeleteQuestionCommand => new RelayCommand(DeleteQuestion);
+        public ICommand DeleteQuizCommand => new RelayCommand(DeleteQuiz);
         public ICommand AddNewQuestionCommand => new RelayCommand(AddNewQuestion);
 
         private void UpdateList()
@@ -164,37 +163,50 @@ namespace Labb3.ViewModels
                     ImagePath = fileName;
                 else
                 {
-                    MessageBox.Show("You have to chose an image file (*.jpg, *.jpeg, *.png)", "NOT A PICTURE");
+                    _ = MessageBox.Show("You have to chose an image file (*.jpg, *.jpeg, *.png)", "NOT A PICTURE");
                 }
             }
+        }
+
+        private void RemovePicture()
+        {
+            ImagePath = string.Empty;
         }
 
         private void ApplyChanges()
         {
             _currentQuestion.UpdateQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
             UpdateQuestions();
+            _quizManager.SaveQuizAsync();
         }
 
         private void DeleteQuestion()
         {
             _quizManager.Quizzes[_currentQuizIndex].RemoveQuestion(CurrentQuestionIndex);
             CurrentQuestionIndex = CurrentQuestionIndex <= 0 ? 0 : CurrentQuestionIndex - 1;
+            UpdateQuestions();
+            _quizManager.SaveQuizAsync();
+        }
+
+        private void DeleteQuiz()
+        {
+            //ToDo: Implementera
+            _quizManager.DeleteQuiz(CurrentQuizIndex);
             UpdateList();
-            UpdateCurrentQuestion();
         }
 
         private void AddNewQuestion()
         {
             _quizManager.Quizzes[CurrentQuizIndex].AddQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
-            CurrentQuestionIndex++;
             UpdateQuestions();
+            CurrentQuestionIndex = AvailableQuestions.Count - 1;
         }
 
         private void UpdateQuestions()
         {
             if (_quizManager.Quizzes.Count == 0)
             {
-                MessageBox.Show("No quizzes found. Please go to the create tab to create a new quiz.", "NO QUIZZES");
+                _ = MessageBox.Show("No quizzes found. Please go to the create tab to create a new quiz.", "NO QUIZZES");
                 return;
             }
 
@@ -204,8 +216,6 @@ namespace Labb3.ViewModels
 
         private void UpdateCurrentQuestion()
         {
-            //ToDo: fixa så att det inte kraschar!
-            //ToDo: fixa så att radioknappisarna hänger med!
             if (CurrentQuestionIndex < 0)
                 CurrentQuestionIndex = 0;
 
@@ -247,7 +257,7 @@ namespace Labb3.ViewModels
         {
             try
             {
-                var bitmap = new BitmapImage(new Uri(fileName));
+                _ = new BitmapImage(new Uri(fileName));
             }
             catch (Exception)
             {
@@ -255,24 +265,5 @@ namespace Labb3.ViewModels
             }
             return true;
         }
-
-
-        //public IEnumerable<string> AvailableQuestions
-        //{
-        //    get { return _availableQuestions; }
-        //    set
-        //    {
-        //        SetProperty(ref _availableQuestions, value);
-        //    }
-        //}
-
-        //public IEnumerable<string> AvailableQuizzes
-        //{
-        //    get => _availableQuizzes;
-        //    set
-        //    {
-        //        SetProperty(ref _availableQuizzes, value);
-        //    }
-        //}
     }
 }

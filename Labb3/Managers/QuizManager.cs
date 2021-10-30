@@ -29,11 +29,7 @@ namespace Labb3.Managers
 
         public async Task LoadQuizzesAsync()
         {
-            Quizzes = await Task<List<Quiz>>.Run(() =>
-            {
-                //Thread.Sleep(10000);
-                return _fileManager.LoadQuizzesAsync();
-            });
+            Quizzes = await Task.Run(() => _fileManager.LoadQuizzesAsync());
         }
 
         public Quiz Play(string title)
@@ -41,29 +37,18 @@ namespace Labb3.Managers
             return Quizzes.Find(q => q.Title == title);
         }
 
-        public void Answer1()
+        public async Task SaveQuizAsync()
         {
-            //ToDo: Implementera
-            throw new NotImplementedException();
-        }
-        public void AnswerX()
-        {
-            //ToDo: Implementera
-            throw new NotImplementedException();
-        }
-        public void Answer2()
-        {
-            //ToDo: Implementera
-            throw new NotImplementedException();
+            await _fileManager.SaveToFileAsync(Quizzes);
         }
 
-        public void ChoosePicture()
+        public void DeleteQuiz(int index)
         {
-            //ToDo: Implementera
-            throw new NotImplementedException();
+            Quizzes.RemoveAt(index);
+            SaveQuizAsync();
         }
 
-        public void AddQuestion(string category, string question, int correctAnswer, string imagePath, string answer1, string answerX, string answer2)
+        public void AddTempQuestion(string category, string question, int correctAnswer, string imagePath, string answer1, string answerX, string answer2)
         {
             TempQuestions.Add(new Question(category, question, correctAnswer, imagePath, answer1, answerX, answer2));
         }
@@ -71,6 +56,9 @@ namespace Labb3.Managers
         public void CreateNewQuiz(string title)
         {
             Quizzes.Add(new Quiz(title, TempQuestions));
+            TempQuestions.Clear();
         }
+
+
     }
 }

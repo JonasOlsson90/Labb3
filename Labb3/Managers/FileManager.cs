@@ -13,6 +13,7 @@ namespace Labb3.Managers
 {
     class FileManager
     {
+        //ToDo: Gör export-knappen enkel. Den exporterar quizet med quiztiteln som filnamn med ett .JQuiz-tillägg direkt till skrivbordet.
         private readonly string _directoryPath;
         private readonly string _pathToFile;
         //private List<Quiz> _standardQuizzes;
@@ -41,24 +42,26 @@ namespace Labb3.Managers
             }
         }
 
-        public async Task SaveToFile(List<Quiz> quizzesToSave)
+        public async Task SaveToFileAsync(List<Quiz> quizzesToSave)
         {
-            //ToDo: Kolla om createStream skapar nya filer hela tiden
-            using FileStream createStream = File.Open(_pathToFile, FileMode.OpenOrCreate);
+            //using var fileEraser = File.WriteAllText(_pathToFile, string.Empty);
+
+            using var fileEraserTask = File.WriteAllTextAsync(_pathToFile, string.Empty);
+
+            await using FileStream createStream = File.Open(_pathToFile, FileMode.OpenOrCreate);
             await JsonSerializer.SerializeAsync(createStream, quizzesToSave);
             await createStream.DisposeAsync();
         }
         
         public async Task CreateFileAsync()
         {
-            //ToDo: Asynca det här!
-            Directory.CreateDirectory(_directoryPath);
+            _ = Directory.CreateDirectory(_directoryPath);
 
             await Task.Run(() =>
             {
-                using FileStream fileCreateter = File.Open(_pathToFile, FileMode.OpenOrCreate);
+                using var fileCreator = File.Open(_pathToFile, FileMode.OpenOrCreate);
 
-                fileCreateter.Close();
+                fileCreator.Close();
 
                 using var fileTask = File.WriteAllTextAsync(_pathToFile, DefaultQuiz.DefaultQuizJsonString);
             });

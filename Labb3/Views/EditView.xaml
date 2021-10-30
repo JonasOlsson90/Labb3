@@ -171,13 +171,19 @@
             Grid.Column="4"
             Grid.ColumnSpan="2"
             Source="{Binding ImagePath}" />
-        <Button
-            Grid.Row="4"
-            Grid.Column="3"
-            Width="170"
-            Height="40"
-            Command="{Binding ChooseImageCommand}"
-            Content="Choose a picture" />
+        <StackPanel Grid.Row="4" Grid.Column="3">
+            <Button
+                Width="170"
+                Height="40"
+                Command="{Binding ChooseImageCommand}"
+                Content="Choose a picture" />
+            <Button
+                Width="170"
+                Height="40"
+                Command="{Binding RemoveImageCommand}"
+                Content="Remove picture" />
+        </StackPanel>
+
         <StackPanel
             Grid.Row="4"
             Grid.RowSpan="2"
@@ -199,6 +205,12 @@
                 Height="40"
                 Command="{Binding DeleteQuestionCommand}"
                 Content="Delete question"
+                ToolTip="Deletes the currently selected question from the currently selected quiz" />
+            <Button
+                Width="170"
+                Height="40"
+                Command="{Binding DeleteQuizCommand}"
+                Content="Delete quiz"
                 ToolTip="Deletes the currently selected question from the currently selected quiz" />
         </StackPanel>
     </Grid>

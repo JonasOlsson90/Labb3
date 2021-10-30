@@ -146,7 +146,7 @@ namespace Labb3.ViewModels
                 MessageBox.Show("You have to enter a question!", "NO QUESTION ASKED");
                 return;
             }
-            _quizManager.AddQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX,
+            _quizManager.AddTempQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX,
                 Answer2);
             Question = string.Empty;
             CorrectAnswer = 0;
@@ -180,9 +180,9 @@ namespace Labb3.ViewModels
             }
 
             _quizManager.CreateNewQuiz(tempTitle);
-            _quizManager.TempQuestions = new List<Question>();
             Title = string.Empty;
             Category = _quizManager.Categories[0];
+            _quizManager.SaveQuizAsync();
         }
     }
 }
