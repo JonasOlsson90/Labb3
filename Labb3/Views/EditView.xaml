@@ -213,5 +213,22 @@
                 Content="Delete quiz"
                 ToolTip="Deletes the currently selected question from the currently selected quiz" />
         </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="3"
+            HorizontalAlignment="Left">
+            <Button
+                Width="130"
+                Height="40"
+                Content="Import quiz"
+                Command="{Binding ImportQuizCommand}"
+                ToolTip="Import a quiz from a file on your computer" />
+            <Button
+                Width="130"
+                Height="40"
+                Content="Export quiz"
+                Command="{Binding ExportQuizCommand}"
+                ToolTip="Export a quiz from a file on your computer" />
+        </StackPanel>
     </Grid>
 </UserControl>

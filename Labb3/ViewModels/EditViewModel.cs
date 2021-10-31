@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Windows.Xps;
 using Labb3.Managers;
 using Labb3.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -40,6 +41,68 @@ namespace Labb3.ViewModels
             _quizManager = quizManager;
         }
 
+        public string Category
+        {
+            get => _category;
+            set => SetProperty(ref _category, value);
+        }
+
+        public string Question
+        {
+            get => _question;
+            set => SetProperty(ref _question, value);
+        }
+
+        public string Answer1
+        {
+            get => _answer1;
+            set => SetProperty(ref _answer1, value);
+        }
+
+        public string AnswerX
+        {
+            get => _answerX;
+            set => SetProperty(ref _answerX, value);
+        }
+
+        public string Answer2
+        {
+            get => _answer2;
+            set => SetProperty(ref _answer2, value);
+        }
+
+        public string ImagePath
+        {
+            get => _imagePath;
+            set => SetProperty(ref _imagePath, value);
+        }
+
+        public int CurrentQuizIndex
+        {
+            get => _currentQuizIndex;
+            set
+            {
+                SetProperty(ref _currentQuizIndex, value);
+                UpdateQuestions();
+            }
+        }
+
+        public int CurrentQuestionIndex
+        {
+            get => _currentQuestionIndex;
+            set
+            {
+                SetProperty(ref _currentQuestionIndex, value);
+                UpdateCurrentQuestion();
+            }
+        }
+
+        public int CorrectAnswer
+        {
+            get => _correctAnswer;
+            set => SetProperty(ref _correctAnswer, value);
+        }
+
         public List<string> AvailableQuizzes
         {
             get => _availableQuizzes;
@@ -54,87 +117,7 @@ namespace Labb3.ViewModels
         public List<string> AvailableQuestions
         {
             get => _availableQuestions;
-            set
-            {
-                SetProperty(ref _availableQuestions, value);
-            }
-        }
-
-        public int CurrentQuizIndex
-        {
-            get { return _currentQuizIndex; }
-            set
-            {
-                SetProperty(ref _currentQuizIndex, value);
-                UpdateQuestions();
-            }
-        }
-
-        public int CurrentQuestionIndex
-        {
-            get { return _currentQuestionIndex; }
-            set
-            {
-                SetProperty(ref _currentQuestionIndex, value);
-                UpdateCurrentQuestion();
-            }
-        }
-
-        public int CorrectAnswer
-        {
-            get => _correctAnswer;
-            set => SetProperty(ref _correctAnswer, value);
-        }
-
-        public string ImagePath
-        {
-            get { return _imagePath; }
-            set => SetProperty(ref _imagePath, value);
-        }
-
-        public string Answer1
-        {
-            get { return _answer1; }
-            set
-            {
-                SetProperty(ref _answer1, value);
-            }
-        }
-
-        public string AnswerX
-        {
-            get { return _answerX; }
-            set
-            {
-                SetProperty(ref _answerX, value);
-            }
-        }
-
-        public string Answer2
-        {
-            get { return _answer2; }
-            set
-            {
-                SetProperty(ref _answer2, value);
-            }
-        }
-
-        public string Question
-        {
-            get { return _question; }
-            set
-            {
-                SetProperty(ref _question, value);
-            }
-        }
-
-        public string Category
-        {
-            get { return _category; }
-            set
-            {
-                SetProperty(ref _category, value);
-            }
+            set => SetProperty(ref _availableQuestions, value);
         }
 
         public ICommand UpdateListCommand => new RelayCommand(UpdateList);
@@ -144,6 +127,9 @@ namespace Labb3.ViewModels
         public ICommand DeleteQuestionCommand => new RelayCommand(DeleteQuestion);
         public ICommand DeleteQuizCommand => new RelayCommand(DeleteQuiz);
         public ICommand AddNewQuestionCommand => new RelayCommand(AddNewQuestion);
+        public ICommand ImportQuizCommand => new RelayCommand(ImportQuiz);
+        public ICommand ExportQuizCommand => new RelayCommand(ExportQuiz);
+
 
         private void UpdateList()
         {
@@ -190,7 +176,6 @@ namespace Labb3.ViewModels
 
         private void DeleteQuiz()
         {
-            //ToDo: Implementera
             _quizManager.DeleteQuiz(CurrentQuizIndex);
             UpdateList();
         }
@@ -200,6 +185,23 @@ namespace Labb3.ViewModels
             _quizManager.Quizzes[CurrentQuizIndex].AddQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
             UpdateQuestions();
             CurrentQuestionIndex = AvailableQuestions.Count - 1;
+        }
+
+        private void ImportQuiz()
+        {
+            ImportQuizAsync();
+        }
+
+        private void ExportQuiz()
+        {
+            _quizManager.ExportQuizAsync(CurrentQuizIndex);
+        }
+
+        private async Task ImportQuizAsync()
+        {
+            await _quizManager.ImportQuizAsync();
+            UpdateList();
+            CurrentQuizIndex = AvailableQuizzes.Count - 1;
         }
 
         private void UpdateQuestions()

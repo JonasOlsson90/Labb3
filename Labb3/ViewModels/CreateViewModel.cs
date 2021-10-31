@@ -130,7 +130,7 @@ namespace Labb3.ViewModels
         {
             try
             {
-                var bitmap = new BitmapImage(new Uri(fileName));
+                _ = new BitmapImage(new Uri(fileName));
             }
             catch (Exception)
             {

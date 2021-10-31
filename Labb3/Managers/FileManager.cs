@@ -8,6 +8,7 @@ using Labb3.Models;
 using System.Text.Json;
 using System.Windows;
 using Labb3.DefaultData;
+using Microsoft.Win32;
 
 namespace Labb3.Managers
 {
@@ -16,15 +17,17 @@ namespace Labb3.Managers
         //ToDo: Gör export-knappen enkel. Den exporterar quizet med quiztiteln som filnamn med ett .JQuiz-tillägg direkt till skrivbordet.
         private readonly string _directoryPath;
         private readonly string _pathToFile;
+
+        private readonly string _pathToDesktop;
         //private List<Quiz> _standardQuizzes;
 
         public FileManager()
         {
             _directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Labb3ByJonas");
             _pathToFile = Path.Combine(_directoryPath, "Quizzes.json");
+            _pathToDesktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }
 
-        //ToDo: Gör async
         public async Task<List<Quiz>> LoadQuizzesAsync()
         {
             if (!File.Exists(_pathToFile))
@@ -67,15 +70,49 @@ namespace Labb3.Managers
             });
         }
 
-        //private void CreateStandardQuiz()
-        //{
-        //    //ToDO: Gör ett standardquiz och lägg till i Quizzes.
+        public async Task ExportQuizAsync(Quiz quiz)
+        {
+            //ToDo: Implementera siffror till namn som redan finns!
+            
+            string tempQuiztitle = $"{quiz.Title}.JQuiz";
+            string pathToQuizFile = Path.Combine(_pathToDesktop, tempQuiztitle);
+            int tempTitleAddition = 2;
 
-        //    List<Question> tempQuestion = new();
-        //    _standardQuizzes = new();
+            while (File.Exists(pathToQuizFile))
+            {
+                pathToQuizFile = Path.Combine(_pathToDesktop, $"{tempQuiztitle}({tempTitleAddition})");
+                tempTitleAddition++;
+            }
 
-        //    tempQuestion.Add(new Question("Pokémon", "Select the best pokémon", 1, "", "Charmander", "Oddish", "Squirtle"));
-        //    _standardQuizzes.Add(new Quiz("Pokémon", tempQuestion));
-        //}
+            await using var fileCreator = File.Open(pathToQuizFile, FileMode.OpenOrCreate);
+            await JsonSerializer.SerializeAsync(fileCreator, quiz);
+            await fileCreator.DisposeAsync();
+
+            _ = MessageBox.Show("The quiz has been successfully exported to your desktop and can now be shared with your friends by floppy. " +
+                                "Remember that locally stored images has to be shared separately.", "QUIZ SUCCESSFULLY EXPORTED");
+        }
+
+        public async Task<Quiz> ImportQuizAsync()
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = "Quizzes (*.JQuiz)|*.JQuiz"
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var fileName = openFileDialog.FileName;
+
+                try
+                {
+                    await using FileStream fs = new FileStream(fileName, FileMode.Open);
+                    return await JsonSerializer.DeserializeAsync<Quiz>(fs);
+                }
+                catch(Exception e)
+                {
+                    _ = MessageBox.Show($"The selected file is invalid\n\nException thrown:\n {e}.", "INVALID FILE");
+                }
+            }
+            return null;
+        }
     }
 }
