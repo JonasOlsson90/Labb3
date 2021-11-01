@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Labb3.Managers;
@@ -120,7 +118,7 @@ namespace Labb3.ViewModels
             QuestionChanged();
         }
 
-        private void UpdateList()
+        public void UpdateList()
         {
             AvailableQuizzes = _quizManager.Quizzes.Select(q => q.Title).ToList();
             if (_quizManager.Quizzes.Count < 1)
@@ -149,7 +147,7 @@ namespace Labb3.ViewModels
             {
                 _numOfQuestionsAsked++;
                 UpdateResult();
-                MessageBox.Show($"Your score: {_numOfCorrectAnswers}/{_numberOfQuestions}", "End of quiz");
+                _ = MessageBox.Show($"Your score: {_numOfCorrectAnswers}/{_numberOfQuestions}", "End of quiz");
                 return;
             }
 
@@ -172,7 +170,9 @@ namespace Labb3.ViewModels
             var tempNumOfCurrentQuestion = _numOfQuestionsAsked < _numberOfQuestions ? _numOfQuestionsAsked + 1 : _numOfQuestionsAsked;
             ResultDisplayText = $"Question          {tempNumOfCurrentQuestion}/{_numberOfQuestions} \n\n" +
                                 $"Correct answers:  {_numOfCorrectAnswers}/{_numberOfQuestions} \n\n" +
-                                $"Correct answers   {Math.Round((decimal)_numOfCorrectAnswers * 100 / (decimal)tempNumOfQuestionsAsked, 2)}%";
+                                $"Correct answers   {Math.Round((decimal)_numOfCorrectAnswers * 100 / tempNumOfQuestionsAsked, 2)}%";
         }
+
+
     }
 }

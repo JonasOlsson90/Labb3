@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Windows.Xps;
 using Labb3.Managers;
 using Labb3.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -131,7 +128,7 @@ namespace Labb3.ViewModels
         public ICommand ExportQuizCommand => new RelayCommand(ExportQuiz);
 
 
-        private void UpdateList()
+        public void UpdateList()
         {
             AvailableQuizzes = _quizManager.Quizzes.Select(q => q.Title).ToList();
         }
@@ -226,8 +223,7 @@ namespace Labb3.ViewModels
                 ClearPropsAndFields();
                 return;
             }
-              
-                
+
             _currentQuestion = _quizManager.Quizzes[CurrentQuizIndex].Questions.ToList()[CurrentQuestionIndex];
             
             UpdatePropsAndFields();

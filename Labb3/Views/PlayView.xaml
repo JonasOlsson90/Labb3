@@ -38,25 +38,18 @@
             HorizontalAlignment="Center"
             FontSize="40"
             Text="Play Quiz" />
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="1"
-            Grid.ColumnSpan="4"
-            Orientation="Horizontal">
-            <Button
-                Height="30"
-                VerticalAlignment="Top"
-                Command="{Binding UpdateListCommand}"
-                Content="Update"
-                ToolTip="Press to update list of quizzes" />
-            <ComboBox
+        <ComboBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
                 Width="150"
                 Height="30"
                 VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                IsSynchronizedWithCurrentItem="true"
                 ItemsSource="{Binding AvailableQuizzes}"
                 SelectedIndex="{Binding CurrentQuizIndex}"
                 ToolTip="Choose a quiz to play!" />
-        </StackPanel>
         <ListBox
             Grid.Row="1"
             Grid.RowSpan="2"

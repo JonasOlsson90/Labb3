@@ -6,6 +6,8 @@
     xmlns:local="clr-namespace:Labb3"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:Labb3.Views"
+    xmlns:viewModels="clr-namespace:Labb3.ViewModels"
+    d:DataContext="{d:DesignInstance viewModels:MainViewModel}"
     Title="MainWindow"
     Width="1200"
     Height="650"
@@ -14,7 +16,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TabControl Background="#2e2e2e">
+        <TabControl Background="#2e2e2e" SelectedIndex="{Binding SelectedTabIndex}">
             <TabItem DataContext="{Binding PlayViewModel}" Header="Play">
                 <views:PlayView />
             </TabItem>

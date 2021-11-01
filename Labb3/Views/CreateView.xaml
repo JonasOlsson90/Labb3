@@ -66,10 +66,10 @@
             Grid.Row="2"
             Grid.Column="1"
             Grid.ColumnSpan="2"
-            Height="30"
             Width="170"
-            VerticalAlignment="Top"
+            Height="30"
             HorizontalAlignment="Left"
+            VerticalAlignment="Top"
             ItemsSource="{Binding Categories}"
             SelectedItem="{Binding Category}" />
         <TextBox
@@ -163,6 +163,11 @@
                 Command="{Binding AddQuestionCommand}"
                 Content="Add question" />
         </StackPanel>
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="4"
+            Foreground="Beige"
+            Text="{Binding NumOfQuestionsText}" />
         <Image
             Grid.Row="3"
             Grid.RowSpan="2"

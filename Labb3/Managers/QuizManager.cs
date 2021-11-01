@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Labb3.Models;
 
@@ -7,12 +9,10 @@ namespace Labb3.Managers
     class QuizManager
     {
         private readonly FileManager _fileManager;
-
-        public List<string> Categories => new()
-            {"Geography", "Entertainment", "History", "Arts & Literature", "Science & Nature", "Pokémon"};
-
+        public List<string> Categories = DefaultData.DefaultData.DefaultCategories.ToList();
         public List<Quiz> Quizzes { get; set; }
         public List<Question> TempQuestions { get; set; }
+        public event Action QuizzesLoaded;
 
         public QuizManager(FileManager fileManager)
         {
@@ -25,6 +25,7 @@ namespace Labb3.Managers
         public async Task LoadQuizzesAsync()
         {
             Quizzes = await Task.Run(() => _fileManager.LoadQuizzesAsync());
+            OnQuizzesLoaded();
         }
 
         public Quiz Play(string title)
@@ -77,6 +78,11 @@ namespace Labb3.Managers
                 Quizzes.Add(new Quiz(tempTitle, tempQuiz.Questions));
                 await _fileManager.SaveToFileAsync(Quizzes);
             }
+        }
+
+        private void OnQuizzesLoaded()
+        {
+            QuizzesLoaded?.Invoke();
         }
     }
 }

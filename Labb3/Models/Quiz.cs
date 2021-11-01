@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Labb3.Models
 {
@@ -30,7 +28,7 @@ namespace Labb3.Models
 
         public Question GetRandomQuestion(ICollection<string> categories)
         {
-            var notYetAskedQuestions = categories.Count > 0 ? 
+            var notYetAskedQuestions = categories.Count > 0 ?
                 Questions.ToList().FindAll(q => !q.IsAsked && categories.Contains(q.Category)) :
                 Questions.ToList().FindAll(q => !q.IsAsked);
 

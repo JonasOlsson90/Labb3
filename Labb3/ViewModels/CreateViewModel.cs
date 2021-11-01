@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Labb3.Managers;
-using Labb3.Models;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
@@ -25,15 +20,19 @@ namespace Labb3.ViewModels
         private string _answerX;
         private string _answer2;
         private int _numOfQuestions;
+        private string _numOfQuestionsText;
         private string _imagePath;
         private int _correctAnswer;
         public ObservableCollection<string> Categories => new(_quizManager.Categories);
-
+        
+        
         public CreateViewModel(QuizManager quizManager)
         {
             _quizManager = quizManager;
             Category = _quizManager.Categories[0];
+            NumOfQuestions = 0;
         }
+
 
         public int CorrectAnswer
         {
@@ -43,21 +42,25 @@ namespace Labb3.ViewModels
 
         public string ImagePath
         {
-            get { return _imagePath; }
-            set
-            {
-                SetProperty(ref _imagePath, value);
-            }
+            get => _imagePath;
+            set => SetProperty(ref _imagePath, value);
         }
 
         //ToDo: Fundera på om du ska ha med detta, om så: implementera
         public int NumOfQuestions
         {
-            get { return _numOfQuestions; }
+            get => _numOfQuestions;
             set
             {
-                SetProperty(ref _numOfQuestions, value);
+                _numOfQuestions = value;
+                NumOfQuestionsText = $"Number of questions: {NumOfQuestions}";
             }
+        }
+
+        public string NumOfQuestionsText
+        {
+            get => _numOfQuestionsText;
+            set => SetProperty(ref _numOfQuestionsText, value);
         }
 
         public string Answer1
@@ -79,29 +82,20 @@ namespace Labb3.ViewModels
 
         public string Question
         {
-            get { return _question; }
-            set
-            {
-                SetProperty(ref _question, value);
-            }
+            get => _question;
+            set => SetProperty(ref _question, value);
         }
 
         public string Category
         {
-            get { return _category; }
-            set
-            {
-                SetProperty(ref _category, value);
-            }
+            get => _category;
+            set => SetProperty(ref _category, value);
         }
 
         public string Title
         {
-            get { return _title; }
-            set
-            {
-                SetProperty(ref _title, value);
-            }
+            get => _title;
+            set => SetProperty(ref _title, value);
         }
 
         public ICommand ChooseImageCommand => new RelayCommand(ChoosePicture);
@@ -154,6 +148,7 @@ namespace Labb3.ViewModels
             Answer1 = string.Empty;
             AnswerX = string.Empty;
             Answer2 = string.Empty;
+            NumOfQuestions++;
         }
 
         private void CreateNewQuiz()
@@ -182,6 +177,7 @@ namespace Labb3.ViewModels
             _quizManager.CreateNewQuiz(tempTitle);
             Title = string.Empty;
             Category = _quizManager.Categories[0];
+            NumOfQuestions = 0;
             _quizManager.SaveQuizAsync();
         }
     }

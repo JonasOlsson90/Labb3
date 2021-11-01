@@ -40,25 +40,18 @@
             HorizontalAlignment="Center"
             FontSize="40"
             Text="Edit Quiz" />
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="1"
-            Grid.ColumnSpan="3"
-            VerticalAlignment="Top"
-            Orientation="Horizontal">
-            <Button
-                Height="30"
-                Command="{Binding UpdateListCommand}"
-                Content="Update"
-                ToolTip="Press to update list of quizzes" />
-            <ComboBox
+        <ComboBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
                 Width="200"
                 Height="30"
                 IsSynchronizedWithCurrentItem="True"
                 ItemsSource="{Binding AvailableQuizzes}"
                 SelectedIndex="{Binding CurrentQuizIndex}"
                 ToolTip="Choose a quiz to edit" />
-        </StackPanel>
         <ComboBox
             Grid.Row="2"
             Grid.Column="1"
@@ -69,7 +62,7 @@
             VerticalAlignment="Top"
             IsSynchronizedWithCurrentItem="True"
             ItemsSource="{Binding AvailableQuestions}"
-            SelectedIndex="{Binding CurrentQuestionIndex, Mode=TwoWay}"
+            SelectedIndex="{Binding CurrentQuestionIndex}"
             ToolTip="Select question to edit" />
         <StackPanel
             Grid.Row="1"
@@ -187,27 +180,29 @@
         <StackPanel
             Grid.Row="4"
             Grid.RowSpan="2"
-            Grid.Column="1">
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Left">
             <Button
-                Width="170"
+                Width="220"
                 Height="40"
                 Command="{Binding ApplyChangesCommand}"
                 Content="Apply changes"
                 ToolTip="Applies changes to the currently selected question in the currently selected quiz" />
             <Button
-                Width="170"
+                Width="220"
                 Height="40"
                 Command="{Binding AddNewQuestionCommand}"
-                Content="Add new question"
+                Content="Add as new question"
                 ToolTip="Creates and adds a new question to the currently selected quiz, no changes will apply to currently selected question" />
             <Button
-                Width="170"
+                Width="220"
                 Height="40"
                 Command="{Binding DeleteQuestionCommand}"
                 Content="Delete question"
                 ToolTip="Deletes the currently selected question from the currently selected quiz" />
             <Button
-                Width="170"
+                Width="220"
                 Height="40"
                 Command="{Binding DeleteQuizCommand}"
                 Content="Delete quiz"
@@ -220,14 +215,14 @@
             <Button
                 Width="130"
                 Height="40"
-                Content="Import quiz"
                 Command="{Binding ImportQuizCommand}"
+                Content="Import quiz"
                 ToolTip="Import a quiz from a file on your computer" />
             <Button
                 Width="130"
                 Height="40"
-                Content="Export quiz"
                 Command="{Binding ExportQuizCommand}"
+                Content="Export quiz"
                 ToolTip="Export a quiz from a file on your computer" />
         </StackPanel>
     </Grid>

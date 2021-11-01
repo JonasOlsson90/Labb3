@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Labb3.Models;
 using System.Text.Json;
@@ -14,12 +12,9 @@ namespace Labb3.Managers
 {
     class FileManager
     {
-        //ToDo: Gör export-knappen enkel. Den exporterar quizet med quiztiteln som filnamn med ett .JQuiz-tillägg direkt till skrivbordet.
         private readonly string _directoryPath;
         private readonly string _pathToFile;
-
         private readonly string _pathToDesktop;
-        //private List<Quiz> _standardQuizzes;
 
         public FileManager()
         {
@@ -66,7 +61,7 @@ namespace Labb3.Managers
 
                 fileCreator.Close();
 
-                using var fileTask = File.WriteAllTextAsync(_pathToFile, DefaultQuiz.DefaultQuizJsonString);
+                using var fileTask = File.WriteAllTextAsync(_pathToFile, DefaultData.DefaultData.DefaultQuizJsonString);
             });
         }
 
