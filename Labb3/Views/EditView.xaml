@@ -203,6 +203,12 @@
             <Button
                 Width="220"
                 Height="40"
+                Command="{Binding ClearFieldsCommand}"
+                Content="Clear question fields"
+                ToolTip="Clear all question fields, the changes will not apply until either 'Apply changes' or 'Add as new question' is pressed" />
+            <Button
+                Width="220"
+                Height="40"
                 Command="{Binding AddNewQuestionCommand}"
                 Content="Add as new question"
                 ToolTip="Creates and adds a new question to the currently selected quiz, no changes will apply to currently selected question" />

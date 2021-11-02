@@ -126,6 +126,7 @@ namespace Labb3.ViewModels
         public ICommand ChooseImageCommand => new RelayCommand(ChoosePicture);
         public ICommand RemoveImageCommand => new RelayCommand(RemovePicture);
         public ICommand ApplyChangesCommand => new RelayCommand(ApplyChanges);
+        public ICommand ClearFieldsCommand => new RelayCommand(ClearPropsAndFields);
         public ICommand DeleteQuestionCommand => new RelayCommand(DeleteQuestion);
         public ICommand DeleteQuizCommand => new RelayCommand(DeleteQuiz);
         public ICommand AddNewQuestionCommand => new RelayCommand(AddNewQuestion);
@@ -202,6 +203,7 @@ namespace Labb3.ViewModels
             _quizManager.Quizzes[CurrentQuizIndex].AddQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
             UpdateQuestions();
             CurrentQuestionIndex = AvailableQuestions.Count - 1;
+            _quizManager.SaveQuizAsync();
         }
 
         private void ImportQuiz()
