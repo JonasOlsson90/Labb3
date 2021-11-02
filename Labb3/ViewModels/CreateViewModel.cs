@@ -31,6 +31,7 @@ namespace Labb3.ViewModels
             _quizManager = quizManager;
             Category = _quizManager.Categories[0];
             NumOfQuestions = 0;
+            CorrectAnswer = 0;
         }
 
 
@@ -46,7 +47,6 @@ namespace Labb3.ViewModels
             set => SetProperty(ref _imagePath, value);
         }
 
-        //ToDo: Fundera på om du ska ha med detta, om så: implementera
         public int NumOfQuestions
         {
             get => _numOfQuestions;

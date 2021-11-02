@@ -17,6 +17,7 @@ namespace Labb3.ViewModels
     class EditViewModel : ObservableObject
     {
         private readonly QuizManager _quizManager;
+        private string _quizTitle;
         private string _category;
         private string _question;
         private string _answer1;
@@ -32,6 +33,12 @@ namespace Labb3.ViewModels
         public ObservableCollection<string> Categories => new(_quizManager.Categories);
 
         //ToDo: Gör färdigt!
+
+        public string QuizTitle
+        {
+            get => _quizTitle;
+            set => SetProperty(ref _quizTitle, value);
+        }
 
         public EditViewModel(QuizManager quizManager)
         {
@@ -106,8 +113,6 @@ namespace Labb3.ViewModels
             set
             {
                 SetProperty(ref _availableQuizzes, value);
-                CurrentQuizIndex = 0;
-                CurrentQuestionIndex = 0;
             }
         }
 
@@ -158,13 +163,25 @@ namespace Labb3.ViewModels
 
         private void ApplyChanges()
         {
+            if (_quizManager.Quizzes.Count == 0)
+                return;
+
+            _quizManager.Quizzes[CurrentQuizIndex].ChangeTitle(QuizTitle);
             _currentQuestion.UpdateQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
+            int tempCurrentQuizIndex = CurrentQuizIndex;
+            int tempCurrentQuestionIndex = CurrentQuestionIndex;
+            UpdateList();
+            CurrentQuizIndex = tempCurrentQuizIndex;
             UpdateQuestions();
+            CurrentQuestionIndex = tempCurrentQuestionIndex;
             _quizManager.SaveQuizAsync();
         }
 
         private void DeleteQuestion()
         {
+            if (_quizManager.Quizzes.Count == 0)
+                return;
+
             _quizManager.Quizzes[_currentQuizIndex].RemoveQuestion(CurrentQuestionIndex);
             CurrentQuestionIndex = CurrentQuestionIndex <= 0 ? 0 : CurrentQuestionIndex - 1;
             UpdateQuestions();
@@ -179,6 +196,9 @@ namespace Labb3.ViewModels
 
         private void AddNewQuestion()
         {
+            if (_quizManager.Quizzes.Count == 0)
+                return;
+
             _quizManager.Quizzes[CurrentQuizIndex].AddQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
             UpdateQuestions();
             CurrentQuestionIndex = AvailableQuestions.Count - 1;
@@ -205,6 +225,7 @@ namespace Labb3.ViewModels
         {
             if (_quizManager.Quizzes.Count == 0)
             {
+                ClearPropsAndFields();
                 _ = MessageBox.Show("No quizzes found. Please go to the create tab to create a new quiz.", "NO QUIZZES");
                 return;
             }
@@ -231,6 +252,7 @@ namespace Labb3.ViewModels
 
         private void UpdatePropsAndFields()
         {
+            QuizTitle = _availableQuizzes[CurrentQuizIndex];
             Question = _currentQuestion.Statement;
             Answer1 = _currentQuestion.Answers[0];
             AnswerX = _currentQuestion.Answers[1];

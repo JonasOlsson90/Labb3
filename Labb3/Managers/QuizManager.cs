@@ -40,6 +40,9 @@ namespace Labb3.Managers
 
         public void DeleteQuiz(int index)
         {
+            if (Quizzes.Count == 0)
+                return;
+
             Quizzes.RemoveAt(index);
             SaveQuizAsync();
         }

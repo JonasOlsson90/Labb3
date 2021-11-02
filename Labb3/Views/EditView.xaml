@@ -76,6 +76,17 @@
                 Margin="20,2,0,2"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
+                <TextBox Width="150" Text="{Binding QuizTitle}"/>
+                <TextBlock 
+                    FontSize="20"
+                    Foreground="Beige"
+                    Text="Quiz Title"/>
+            </StackPanel>
+                <StackPanel
+                Height="30"
+                Margin="20,2,0,2"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
                 <ComboBox
                     Width="150"
                     Height="30"
@@ -87,11 +98,11 @@
                     Text="Category" />
             </StackPanel>
             <StackPanel
-                Height="30"
+                Height="70"
                 Margin="20,2,0,2"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <TextBox Width="150" Text="{Binding Question}" />
+                <TextBox Width="150" TextWrapping="Wrap" Text="{Binding Question}" />
                 <TextBlock
                     FontSize="20"
                     Foreground="Beige"

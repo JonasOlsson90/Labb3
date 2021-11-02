@@ -5,11 +5,11 @@ using System.Text.Json.Serialization;
 
 namespace Labb3.Models
 {
-    class Quiz
+    internal class Quiz
     {
         private readonly Random _random;
         public ICollection<Question> Questions { get; }
-        public string Title { get; }
+        public string Title { get; private set; }
 
         public Quiz(string title)
         {
@@ -24,6 +24,11 @@ namespace Labb3.Models
             _random = new Random();
             Title = title;
             Questions = questions.ToList();
+        }
+
+        public void ChangeTitle(string title)
+        {
+            Title = title;
         }
 
         public Question GetRandomQuestion(ICollection<string> categories)

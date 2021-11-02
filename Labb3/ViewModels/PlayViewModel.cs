@@ -129,7 +129,11 @@ namespace Labb3.ViewModels
 
         private void UpdateCategories()
         {
+            //ToDo: Fixa krasch!
             Categories.Clear();
+
+            if (_quizManager.Quizzes.Count == 0)
+                return;
 
             var tempCategoryNames = _quizManager.Quizzes[CurrentQuizIndex].Questions.Select(q => q.Category).Distinct()
                 .ToList();
@@ -152,9 +156,7 @@ namespace Labb3.ViewModels
             }
 
             foreach (var answer in _currentQuestion.Answers)
-            {
                 Answers.Add(answer);
-            }
 
             Statement = _currentQuestion.Statement;
             ImagePath = _currentQuestion.ImagePath;
@@ -172,7 +174,5 @@ namespace Labb3.ViewModels
                                 $"Correct answers:  {_numOfCorrectAnswers}/{_numberOfQuestions} \n\n" +
                                 $"Correct answers   {Math.Round((decimal)_numOfCorrectAnswers * 100 / tempNumOfQuestionsAsked, 2)}%";
         }
-
-
     }
 }
