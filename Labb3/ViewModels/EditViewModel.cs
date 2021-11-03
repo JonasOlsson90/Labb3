@@ -130,7 +130,7 @@ namespace Labb3.ViewModels
         public ICommand AddNewQuestionCommand => new RelayCommand(AddNewQuestion);
         public ICommand ImportQuizCommand => new RelayCommand(ImportQuiz);
         public ICommand ExportQuizCommand => new RelayCommand(ExportQuiz);
-
+        
 
         public void UpdateList()
         {

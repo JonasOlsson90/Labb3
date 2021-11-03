@@ -6,6 +6,7 @@ namespace Labb3.Converters
 {
     public class RadioButtonCheckedConverter : IValueConverter
     {
+        // Klass för att konvertera radioknapparna till integers.
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             int integer = (int) value;

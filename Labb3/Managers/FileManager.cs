@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using Labb3.Models;
 using System.Text.Json;
 using System.Windows;
-using Labb3.DefaultData;
 using Microsoft.Win32;
 
 namespace Labb3.Managers
 {
-    class FileManager
+    internal class FileManager
     {
         private readonly string _directoryPath;
         private readonly string _pathToFile;
@@ -30,7 +29,7 @@ namespace Labb3.Managers
 
             try
             {
-                using FileStream fs = new FileStream(_pathToFile, FileMode.Open);
+                using var fs = new FileStream(_pathToFile, FileMode.Open);
                 return await JsonSerializer.DeserializeAsync<List<Quiz>>(fs);
             }
             catch (Exception e)
@@ -42,11 +41,7 @@ namespace Labb3.Managers
 
         public async Task SaveToFileAsync(List<Quiz> quizzesToSave)
         {
-            //using var fileEraser = File.WriteAllText(_pathToFile, string.Empty);
-
-            using var fileEraserTask = File.WriteAllTextAsync(_pathToFile, string.Empty);
-
-            await using FileStream createStream = File.Open(_pathToFile, FileMode.OpenOrCreate);
+            await using var createStream = File.Open(_pathToFile, FileMode.Create);
             await JsonSerializer.SerializeAsync(createStream, quizzesToSave);
             await createStream.DisposeAsync();
         }
@@ -57,7 +52,7 @@ namespace Labb3.Managers
 
             await Task.Run(() =>
             {
-                using var fileCreator = File.Open(_pathToFile, FileMode.OpenOrCreate);
+                using var fileCreator = File.Open(_pathToFile, FileMode.Create);
 
                 fileCreator.Close();
 
@@ -67,13 +62,13 @@ namespace Labb3.Managers
 
         public async Task ExportQuizAsync(Quiz quiz)
         {
-            string tempQuiztitle = $"{quiz.Title}.JQuiz";
-            string pathToQuizFile = Path.Combine(_pathToDesktop, tempQuiztitle);
+            string tempQuizTitle = $"{quiz.Title}.JQuiz";
+            string pathToQuizFile = Path.Combine(_pathToDesktop, tempQuizTitle);
             int tempTitleAddition = 2;
 
             while (File.Exists(pathToQuizFile))
             {
-                pathToQuizFile = Path.Combine(_pathToDesktop, $"{tempQuiztitle}({tempTitleAddition})");
+                pathToQuizFile = Path.Combine(_pathToDesktop, $"{quiz.Title}({tempTitleAddition}).JQuiz");
                 tempTitleAddition++;
             }
 
