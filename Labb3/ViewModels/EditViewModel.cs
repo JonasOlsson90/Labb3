@@ -32,8 +32,6 @@ namespace Labb3.ViewModels
         private Question _currentQuestion;
         public ObservableCollection<string> Categories => new(_quizManager.Categories);
 
-        //ToDo: Gör färdigt!
-
         public string QuizTitle
         {
             get => _quizTitle;
@@ -228,6 +226,7 @@ namespace Labb3.ViewModels
             if (_quizManager.Quizzes.Count == 0)
             {
                 ClearPropsAndFields();
+                AvailableQuestions.Clear();
                 _ = MessageBox.Show("No quizzes found. Please go to the create tab to create a new quiz.", "NO QUIZZES");
                 return;
             }

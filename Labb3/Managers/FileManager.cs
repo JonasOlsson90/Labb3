@@ -67,8 +67,6 @@ namespace Labb3.Managers
 
         public async Task ExportQuizAsync(Quiz quiz)
         {
-            //ToDo: Implementera siffror till namn som redan finns!
-            
             string tempQuiztitle = $"{quiz.Title}.JQuiz";
             string pathToQuizFile = Path.Combine(_pathToDesktop, tempQuiztitle);
             int tempTitleAddition = 2;

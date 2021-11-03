@@ -129,7 +129,6 @@ namespace Labb3.ViewModels
 
         private void UpdateCategories()
         {
-            //ToDo: Fixa krasch!
             Categories.Clear();
 
             if (_quizManager.Quizzes.Count == 0)
