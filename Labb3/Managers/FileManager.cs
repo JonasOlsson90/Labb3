@@ -35,7 +35,7 @@ namespace Labb3.Managers
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Exception thrown: {e}", "ERROR");
+                _ = MessageBox.Show($"Exception thrown: {e}", "ERROR");
                 throw;
             }
         }
