@@ -23,7 +23,7 @@ namespace Labb3.ViewModels
 
         public MainViewModel()
         {
-            FileManager = new();
+            FileManager = new FileManager();
             QuizManager = new QuizManager(FileManager);
             PlayViewModel = new PlayViewModel(QuizManager);
             EditViewModel = new EditViewModel(QuizManager);

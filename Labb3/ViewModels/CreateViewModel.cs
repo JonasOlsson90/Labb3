@@ -10,7 +10,7 @@ using Microsoft.Win32;
 
 namespace Labb3.ViewModels
 {
-    class CreateViewModel : ObservableObject
+    internal class CreateViewModel : ObservableObject
     {
         private readonly QuizManager _quizManager;
         private string _title;
@@ -140,14 +140,13 @@ namespace Labb3.ViewModels
                 MessageBox.Show("You have to enter a question!", "NO QUESTION ASKED");
                 return;
             }
+
+            // Adderar frågan till QuizManagerns temporära frågor. Dessa används sedan för att skapa ett nytt quiz.
             _quizManager.AddTempQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX,
                 Answer2);
-            Question = string.Empty;
-            CorrectAnswer = 0;
-            ImagePath = string.Empty;
-            Answer1 = string.Empty;
-            AnswerX = string.Empty;
-            Answer2 = string.Empty;
+
+            ResetPropsAndFields();
+
             NumOfQuestions++;
         }
 
@@ -178,7 +177,17 @@ namespace Labb3.ViewModels
             Title = string.Empty;
             Category = _quizManager.Categories[0];
             NumOfQuestions = 0;
-            _quizManager.SaveQuizAsync();
+            _quizManager.SaveAllQuizzesAsync();
+        }
+
+        private void ResetPropsAndFields()
+        {
+            Question = string.Empty;
+            CorrectAnswer = 0;
+            ImagePath = string.Empty;
+            Answer1 = string.Empty;
+            AnswerX = string.Empty;
+            Answer2 = string.Empty;
         }
     }
 }

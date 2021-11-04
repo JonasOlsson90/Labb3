@@ -33,7 +33,7 @@ namespace Labb3.Managers
             return Quizzes.Find(q => q.Title == title);
         }
 
-        public async Task SaveQuizAsync()
+        public async Task SaveAllQuizzesAsync()
         {
             await _fileManager.SaveToFileAsync(Quizzes);
         }
@@ -44,7 +44,7 @@ namespace Labb3.Managers
                 return;
 
             Quizzes.RemoveAt(index);
-            SaveQuizAsync();
+            SaveAllQuizzesAsync();
         }
 
         public void AddTempQuestion(string category, string question, int correctAnswer, string imagePath,

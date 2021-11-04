@@ -72,7 +72,7 @@ namespace Labb3.Managers
                 tempTitleAddition++;
             }
 
-            await using var fileCreator = File.Open(pathToQuizFile, FileMode.OpenOrCreate);
+            await using var fileCreator = File.Open(pathToQuizFile, FileMode.Create);
             await JsonSerializer.SerializeAsync(fileCreator, quiz);
             await fileCreator.DisposeAsync();
 

@@ -84,7 +84,6 @@ namespace Labb3.ViewModels
         public ICommand Answer1Command => new RelayCommand(() => Answer(0));
         public ICommand AnswerXCommand => new RelayCommand(() => Answer(1));
         public ICommand Answer2Command => new RelayCommand(() => Answer(2));
-        public ICommand UpdateListCommand => new RelayCommand(UpdateList);
 
         private void Play()
         {
@@ -98,6 +97,7 @@ namespace Labb3.ViewModels
 
             _currentQuiz = _quizManager.Play(_availableQuizzes[CurrentQuizIndex]);
 
+            // Om användaren valt några specifika kategorier beräknas antalet frågor som har någon av de kategorierna, annars summeras alla frågor i quizet.
             _numberOfQuestions = SelectedCategories.Count > 0 ?
                 _currentQuiz.Questions.Count(q => SelectedCategories.Contains(q.Category)) :
                 _currentQuiz.Questions.Count;
@@ -105,7 +105,7 @@ namespace Labb3.ViewModels
             _numOfCorrectAnswers = 0;
             _numOfQuestionsAsked = -1;
             _currentQuiz.ResetQuestions();
-            QuestionChanged();
+            ChangeQuestion();
         }
 
         private void Answer(int indexOfAnswer)
@@ -115,7 +115,7 @@ namespace Labb3.ViewModels
 
             if (_currentQuestion.CorrectAnswer == indexOfAnswer)
                 _numOfCorrectAnswers++;
-            QuestionChanged();
+            ChangeQuestion();
         }
 
         public void UpdateList()
@@ -141,9 +141,8 @@ namespace Labb3.ViewModels
                 Categories.Add(new Category(category));
         }
 
-        private void QuestionChanged()
+        private void ChangeQuestion()
         {
-            Answers.Clear();
             _currentQuestion = _currentQuiz.GetRandomQuestion(SelectedCategories);
 
             if (_currentQuestion == null)
@@ -154,9 +153,8 @@ namespace Labb3.ViewModels
                 return;
             }
 
-            foreach (var answer in _currentQuestion.Answers)
-                Answers.Add(answer);
-
+            Answers = new(_currentQuestion.Answers);
+            OnPropertyChanged(nameof(Answers));
             Statement = _currentQuestion.Statement;
             ImagePath = _currentQuestion.ImagePath;
             Category = _currentQuestion.Category;

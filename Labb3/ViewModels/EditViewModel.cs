@@ -32,15 +32,16 @@ namespace Labb3.ViewModels
         private Question _currentQuestion;
         public ObservableCollection<string> Categories => new(_quizManager.Categories);
 
-        public string QuizTitle
-        {
-            get => _quizTitle;
-            set => SetProperty(ref _quizTitle, value);
-        }
 
         public EditViewModel(QuizManager quizManager)
         {
             _quizManager = quizManager;
+        }
+
+        public string QuizTitle
+        {
+            get => _quizTitle;
+            set => SetProperty(ref _quizTitle, value);
         }
 
         public string Category
@@ -108,10 +109,7 @@ namespace Labb3.ViewModels
         public List<string> AvailableQuizzes
         {
             get => _availableQuizzes;
-            set
-            {
-                SetProperty(ref _availableQuizzes, value);
-            }
+            set => SetProperty(ref _availableQuizzes, value);
         }
 
         public List<string> AvailableQuestions
@@ -173,7 +171,7 @@ namespace Labb3.ViewModels
             CurrentQuizIndex = tempCurrentQuizIndex;
             UpdateQuestions();
             CurrentQuestionIndex = tempCurrentQuestionIndex;
-            _quizManager.SaveQuizAsync();
+            _quizManager.SaveAllQuizzesAsync();
         }
 
         private void DeleteQuestion()
@@ -184,7 +182,7 @@ namespace Labb3.ViewModels
             _quizManager.Quizzes[_currentQuizIndex].RemoveQuestion(CurrentQuestionIndex);
             CurrentQuestionIndex = CurrentQuestionIndex <= 0 ? 0 : CurrentQuestionIndex - 1;
             UpdateQuestions();
-            _quizManager.SaveQuizAsync();
+            _quizManager.SaveAllQuizzesAsync();
         }
 
         private void DeleteQuiz()
@@ -201,7 +199,7 @@ namespace Labb3.ViewModels
             _quizManager.Quizzes[CurrentQuizIndex].AddQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
             UpdateQuestions();
             CurrentQuestionIndex = AvailableQuestions.Count - 1;
-            _quizManager.SaveQuizAsync();
+            _quizManager.SaveAllQuizzesAsync();
         }
 
         private void ImportQuiz()
