@@ -2,7 +2,7 @@
 
 namespace Labb3.Models
 {
-    class Question
+    internal class Question
     {
         public string Category { get; private set; }
         public string Statement { get; private set; }

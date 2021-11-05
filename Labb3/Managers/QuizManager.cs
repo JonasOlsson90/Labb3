@@ -6,7 +6,7 @@ using Labb3.Models;
 
 namespace Labb3.Managers
 {
-    class QuizManager
+    internal class QuizManager
     {
         private readonly FileManager _fileManager;
         public List<string> Categories = DefaultData.DefaultData.DefaultCategories.ToList();

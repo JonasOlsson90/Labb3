@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Labb3.Models
 {
-    public class Category
+    internal class Category
     {
         public string CategoryName { get; set; }
         public bool IsSelected { get; set; }

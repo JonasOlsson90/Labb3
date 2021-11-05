@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace Labb3.Converters
 {
-    public class RadioButtonCheckedConverter : IValueConverter
+    internal class RadioButtonCheckedConverter : IValueConverter
     {
         // Klass för att konvertera radioknapparna till integers.
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -12,8 +12,7 @@ namespace Labb3.Converters
             int integer = (int) value;
             if (integer == int.Parse(parameter.ToString()))
                 return true;
-            else
-                return false;
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using Labb3.Managers;
+﻿using System.Windows;
 using Labb3.ViewModels;
 
 namespace Labb3

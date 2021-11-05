@@ -14,7 +14,7 @@ using Microsoft.Win32;
 
 namespace Labb3.ViewModels
 {
-    class EditViewModel : ObservableObject
+    internal class EditViewModel : ObservableObject
     {
         private readonly QuizManager _quizManager;
         private string _quizTitle;

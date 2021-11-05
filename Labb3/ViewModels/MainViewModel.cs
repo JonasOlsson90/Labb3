@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using Labb3.Managers;
-using Labb3.ViewModels;
+﻿using Labb3.Managers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Labb3.ViewModels
 {
-    class MainViewModel : ObservableObject
+    internal class MainViewModel : ObservableObject
     {
         private int _selectedTabIndex;
         public QuizManager QuizManager { get; }

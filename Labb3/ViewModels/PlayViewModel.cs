@@ -11,7 +11,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 
 namespace Labb3.ViewModels
 {
-    class PlayViewModel : ObservableObject
+    internal class PlayViewModel : ObservableObject
     {
         private List<string> _availableQuizzes;
         private int _currentQuizIndex;
