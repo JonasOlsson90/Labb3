@@ -6,13 +6,10 @@ namespace Labb3.Converters
 {
     internal class RadioButtonCheckedConverter : IValueConverter
     {
-        // Klass för att konvertera radioknapparna till integers.
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             int integer = (int) value;
-            if (integer == int.Parse(parameter.ToString()))
-                return true;
-            return false;
+            return integer == int.Parse(parameter.ToString());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
