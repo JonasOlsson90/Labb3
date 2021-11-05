@@ -67,6 +67,7 @@
             Grid.ColumnSpan="2"
             Width="170"
             Height="30"
+            Margin="20,0,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             ItemsSource="{Binding Categories}"
@@ -76,8 +77,9 @@
             Grid.Column="1"
             Grid.ColumnSpan="2"
             Height="30"
+            Margin="20,0,0,0"
             VerticalAlignment="Bottom"
-            Text="{Binding Question, UpdateSourceTrigger=PropertyChanged}"
+            Text="{Binding Statement, UpdateSourceTrigger=PropertyChanged}"
             ToolTip="Enter question" />
         <TextBlock
             Grid.Row="2"
@@ -87,7 +89,7 @@
             VerticalAlignment="Bottom"
             FontSize="20"
             Foreground="Beige"
-            Text="Question" />
+            Text="Statement" />
         <StackPanel
             Grid.Row="3"
             Grid.RowSpan="2"

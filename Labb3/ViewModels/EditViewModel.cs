@@ -19,7 +19,7 @@ namespace Labb3.ViewModels
         private readonly QuizManager _quizManager;
         private string _quizTitle;
         private string _category;
-        private string _question;
+        private string _statement;
         private string _answer1;
         private string _answerX;
         private string _answer2;
@@ -50,10 +50,10 @@ namespace Labb3.ViewModels
             set => SetProperty(ref _category, value);
         }
 
-        public string Question
+        public string Statement
         {
-            get => _question;
-            set => SetProperty(ref _question, value);
+            get => _statement;
+            set => SetProperty(ref _statement, value);
         }
 
         public string Answer1
@@ -164,7 +164,7 @@ namespace Labb3.ViewModels
                 return;
 
             _quizManager.Quizzes[CurrentQuizIndex].ChangeTitle(QuizTitle);
-            _currentQuestion.UpdateQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
+            _currentQuestion.UpdateQuestion(Category, Statement, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
             int tempCurrentQuizIndex = CurrentQuizIndex;
             int tempCurrentQuestionIndex = CurrentQuestionIndex;
             UpdateList();
@@ -196,7 +196,7 @@ namespace Labb3.ViewModels
             if (_quizManager.Quizzes.Count == 0)
                 return;
 
-            _quizManager.Quizzes[CurrentQuizIndex].AddQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
+            _quizManager.Quizzes[CurrentQuizIndex].AddQuestion(Category, Statement, CorrectAnswer, ImagePath, Answer1, AnswerX, Answer2);
             UpdateQuestions();
             CurrentQuestionIndex = AvailableQuestions.Count - 1;
             _quizManager.SaveAllQuizzesAsync();
@@ -252,7 +252,7 @@ namespace Labb3.ViewModels
         private void UpdatePropsAndFields()
         {
             QuizTitle = _availableQuizzes[CurrentQuizIndex];
-            Question = _currentQuestion.Statement;
+            Statement = _currentQuestion.Statement;
             Answer1 = _currentQuestion.Answers[0];
             AnswerX = _currentQuestion.Answers[1];
             Answer2 = _currentQuestion.Answers[2];
@@ -263,7 +263,7 @@ namespace Labb3.ViewModels
 
         private void ClearPropsAndFields()
         {
-            Question = string.Empty;
+            Statement = string.Empty;
             Answer1 = string.Empty;
             AnswerX = string.Empty;
             Answer2 = string.Empty;

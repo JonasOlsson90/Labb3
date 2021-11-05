@@ -15,7 +15,7 @@ namespace Labb3.ViewModels
         private readonly QuizManager _quizManager;
         private string _title;
         private string _category;
-        private string _question;
+        private string _statement;
         private string _answer1;
         private string _answerX;
         private string _answer2;
@@ -80,10 +80,10 @@ namespace Labb3.ViewModels
             set => SetProperty(ref _answer2, value);
         }
 
-        public string Question
+        public string Statement
         {
-            get => _question;
-            set => SetProperty(ref _question, value);
+            get => _statement;
+            set => SetProperty(ref _statement, value);
         }
 
         public string Category
@@ -135,14 +135,14 @@ namespace Labb3.ViewModels
 
         private void AddQuestion()
         {
-            if (string.IsNullOrEmpty(Question))
+            if (string.IsNullOrEmpty(Statement))
             {
                 MessageBox.Show("You have to enter a question!", "NO QUESTION ASKED");
                 return;
             }
 
             // Adderar frågan till QuizManagerns temporära frågor. Dessa används sedan för att skapa ett nytt quiz.
-            _quizManager.AddTempQuestion(Category, Question, CorrectAnswer, ImagePath, Answer1, AnswerX,
+            _quizManager.AddTempQuestion(Category, Statement, CorrectAnswer, ImagePath, Answer1, AnswerX,
                 Answer2);
 
             ResetPropsAndFields();
@@ -182,7 +182,7 @@ namespace Labb3.ViewModels
 
         private void ResetPropsAndFields()
         {
-            Question = string.Empty;
+            Statement = string.Empty;
             CorrectAnswer = 0;
             ImagePath = string.Empty;
             Answer1 = string.Empty;

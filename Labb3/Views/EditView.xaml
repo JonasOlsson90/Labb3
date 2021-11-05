@@ -40,17 +40,17 @@
             FontSize="40"
             Text="Edit Quiz" />
         <ComboBox
-                Grid.Row="1"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Left"
-                Width="200"
-                Height="30"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding AvailableQuizzes}"
-                SelectedIndex="{Binding CurrentQuizIndex}"
-                ToolTip="Choose a quiz to edit" />
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Width="200"
+            Height="30"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding AvailableQuizzes}"
+            SelectedIndex="{Binding CurrentQuizIndex}"
+            ToolTip="Choose a quiz to edit" />
         <ComboBox
             Grid.Row="2"
             Grid.Column="1"
@@ -75,13 +75,13 @@
                 Margin="20,2,0,2"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <TextBox Width="150" Text="{Binding QuizTitle}"/>
-                <TextBlock 
+                <TextBox Width="150" Text="{Binding QuizTitle}" />
+                <TextBlock
                     FontSize="20"
                     Foreground="Beige"
-                    Text="Quiz Title"/>
+                    Text="Quiz Title" />
             </StackPanel>
-                <StackPanel
+            <StackPanel
                 Height="30"
                 Margin="20,2,0,2"
                 VerticalAlignment="Center"
@@ -101,7 +101,10 @@
                 Margin="20,2,0,2"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <TextBox Width="150" TextWrapping="Wrap" Text="{Binding Question}" />
+                <TextBox
+                    Width="150"
+                    Text="{Binding Statement}"
+                    TextWrapping="Wrap" />
                 <TextBlock
                     FontSize="20"
                     Foreground="Beige"
